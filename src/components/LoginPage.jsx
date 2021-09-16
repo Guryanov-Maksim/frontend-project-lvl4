@@ -1,15 +1,24 @@
-import React, { useEffect, useRef } from 'react';
+import axios from 'axios';
+import React, { useState, useEffect, useRef } from 'react';
 import { useFormik } from 'formik';
+import { useLocation, useHistory } from 'react-router-dom';
 import * as yup from 'yup';
 import { Form, Button } from 'react-bootstrap';
+import routes from '../routes.js';
+import useAuth from '../hooks/index.jsx';
 
 const schema = yup.object().shape({
   username: yup.string().trim().required(),
   password: yup.string().trim().required(),
 });
 
-const MainPage = () => {
+const LoginPage = () => {
+  const [authFailed, setAuthFailed] = useState(false);
   const inputRef = useRef();
+  const auth = useAuth();
+  const location = useLocation();
+  const history = useHistory();
+
   useEffect(() => {
     inputRef.current.focus();
   }, []);
@@ -20,24 +29,25 @@ const MainPage = () => {
       password: '',
     },
     validationSchema: schema,
-    onSubmit: (values) => {
-      console.log(values);
-      // setAuthFailed(false);
+    onSubmit: async (values) => {
+      setAuthFailed(false);
 
-      // try {
-      //   const res = await axios.post(routes.loginPath(), values);
-      //   localStorage.setItem('userId', JSON.stringify(res.data));
-      //   auth.logIn();
-      //   const { from } = location.state || { from: { pathname: '/' } };
-      //   history.replace(from);
-      // } catch (err) {
-      //   if (err.isAxiosError && err.response.status === 401) {
-      //     setAuthFailed(true);
-      //     inputRef.current.select();
-      //     return;
-      //   }
-      //   throw err;
-      // }
+      try {
+        const res = await axios.post(routes.loginPath(), values);
+        // const { token } = res.data;
+        // localStorage.setItem('userId', JSON.stringify(token));
+        localStorage.setItem('userId', JSON.stringify(res.data));
+        auth.logIn();
+        const { from } = location.state;
+        history.replace(from);
+      } catch (err) {
+        if (err.isAxiosError && err.response.status === 401) {
+          setAuthFailed(true);
+          inputRef.current.select();
+          return;
+        }
+        throw err;
+      }
     },
   });
 
@@ -57,7 +67,8 @@ const MainPage = () => {
                 autoComplete="username"
                 required
                 ref={inputRef}
-                isInvalid={formik.errors.username}
+                isValid={!formik.errors.username}
+                isInvalid={authFailed}
               />
             </Form.Group>
             <Form.Group>
@@ -71,7 +82,8 @@ const MainPage = () => {
                 id="password"
                 autoComplete="current-password"
                 required
-                isInvalid={formik.errors.username}
+                isValid={!formik.errors.username}
+                isInvalid={authFailed}
               />
               <Form.Control.Feedback type="invalid">the username or password is incorrect</Form.Control.Feedback>
             </Form.Group>
@@ -83,4 +95,4 @@ const MainPage = () => {
   );
 };
 
-export default MainPage;
+export default LoginPage;

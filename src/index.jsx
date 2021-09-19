@@ -5,13 +5,13 @@ import 'regenerator-runtime/runtime.js'; // разобраться почему 
 import '../assets/application.scss';
 import ReactDOM from 'react-dom';
 import React from 'react';
-import Component from './components/App.jsx';
+import App from './App.jsx';
 
 if (process.env.NODE_ENV !== 'production') {
   localStorage.debug = 'chat:*';
 }
 
 ReactDOM.render(
-  <Component />,
+  <App />,
   document.getElementById('chat'),
 );

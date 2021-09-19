@@ -6,10 +6,10 @@ import {
   Link,
   Redirect,
 } from 'react-router-dom';
-import LoginPage from './LoginPage.jsx';
-import NotFound from './NotFound.jsx';
-import authContext from '../contexts/index.jsx';
-import useAuth from '../hooks/index.jsx';
+import LoginPage from './app/LoginPage.jsx';
+import NotFound from './app/NotFound.jsx';
+import authContext from './contexts/index.jsx';
+import useAuth from './hooks/index.jsx';
 
 const isAuthUser = () => {
   const userId = JSON.parse(localStorage.getItem('userId'));

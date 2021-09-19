@@ -5,6 +5,8 @@ import 'regenerator-runtime/runtime.js'; // разобраться почему 
 import '../assets/application.scss';
 import ReactDOM from 'react-dom';
 import React from 'react';
+import { Provider } from 'react-redux';
+import store from './app/store';
 import App from './App.jsx';
 
 if (process.env.NODE_ENV !== 'production') {
@@ -12,6 +14,8 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 ReactDOM.render(
-  <App />,
+  <Provider store={store}>
+    <App />
+  </Provider>,
   document.getElementById('chat'),
 );

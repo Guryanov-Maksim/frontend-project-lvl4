@@ -7,7 +7,7 @@ import {
   Redirect,
 } from 'react-router-dom';
 import LoginPage from './app/LoginPage.jsx';
-import NotFound from './app/NotFound.jsx';
+import MainPage from './app/MainPage.jsx';
 import authContext from './contexts/index.jsx';
 import useAuth from './hooks/index.jsx';
 
@@ -68,7 +68,7 @@ const App = () => (
             <LoginPage />
           </Route>
           <MainRoute path="/">
-            <NotFound />
+            <MainPage />
           </MainRoute>
         </Switch>
       </div>

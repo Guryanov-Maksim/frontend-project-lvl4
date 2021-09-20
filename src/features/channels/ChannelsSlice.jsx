@@ -19,3 +19,7 @@ const channelsSlice = createSlice({
 export const { channelsFetched } = channelsSlice.actions;
 
 export default channelsSlice.reducer;
+
+export const selectAllChannels = (state) => state.channels.channels;
+
+export const selectCurrentChannelId = (state) => state.channels.currentChannelId;

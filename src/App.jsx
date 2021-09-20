@@ -61,17 +61,14 @@ const App = () => (
       <Link to="/">Default page</Link>
       <Link to="/login">Login page</Link>
 
-      <div className="container p-3">
-        <h1 className="text-center mt-5 mb-4">Welcome to Chat!</h1>
-        <Switch>
-          <Route exact path="/login">
-            <LoginPage />
-          </Route>
-          <MainRoute path="/">
-            <MainPage />
-          </MainRoute>
-        </Switch>
-      </div>
+      <Switch>
+        <Route exact path="/login">
+          <LoginPage />
+        </Route>
+        <MainRoute path="/">
+          <MainPage />
+        </MainRoute>
+      </Switch>
     </Router>
   </AuthProvider>
 );

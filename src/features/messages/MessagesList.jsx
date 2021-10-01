@@ -1,57 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Formik, Field, Form } from 'formik';
-import { useSelector, useDispatch } from 'react-redux';
-// import { io } from 'socket.io-client';
+import { useSelector } from 'react-redux';
 
-import { selectAllMessages, messageFetched } from './MessagesSlice.jsx';
-// import { selectAllMessages, messageFetched, createChannel, sendMessage } from './MessagesSlice.jsx';
+import { selectAllMessages } from './MessagesSlice.jsx';
 import { selectCurrentChannelId, selectAllChannels } from '../channels/ChannelsSlice.jsx';
-
-// import ws from '../../app/WebsocketApi.jsx';
-
-// const socket = io();
-// const socket = ws.createWebsocket();
-
-// const withTimeout = (onSuccess, onTimeout, timeout) => {
-//   let called = false;
-
-//   const timer = setTimeout(() => {
-//     if (called) return;
-//     called = true;
-//     onTimeout();
-//   }, timeout);
-
-//   return (...args) => {
-//     if (called) return;
-//     called = true;
-//     clearTimeout(timer);
-//     onSuccess.apply(this, args);
-//   }
-// }
 
 const MessageExcerpt = ({ message }) => (
   <div className="text-break mb-2">
     {message.text}
   </div>
 );
-
-// (response) => {
-//   setMessageStatus('filling');
-//   // return 'truetrue';
-//   actions.resetForm();
-// }, () => {
-//   setMessageStatus('failed');
-//   console.log('timeout!');
-// }, 1000));
-
-// const callbacks = () => {
-//   onSuccess: (response) => {
-
-//   },
-//   onTimeout: () => {
-
-//   },
-// };
 
 const MessageForm = ({ sendMessage }) => {
   const [messageStatus, setMessageStatus] = useState('filling');
@@ -64,10 +22,6 @@ const MessageForm = ({ sendMessage }) => {
       onSubmit={(values, actions) => {
         const message = { text: values.text };
         sendMessage(message, { setMessageStatus, actions });
-        // console.log(result);
-        // if (messageStatus === 'filling') {
-        //   actions.resetForm();
-        // }
       }}
     >
       {({ values }) => (
@@ -104,14 +58,6 @@ const MessagesHeader = ({ messagesCount }) => {
 
 const Messages = () => {
   const messages = useSelector(selectAllMessages);
-  // const dispatch = useDispatch();
-
-  // useEffect(() => {
-  //   socket.on('newMessage', (data) => {
-  //     // console.log(data);
-  //     dispatch(messageFetched(data));
-  //   });
-  // }, []);
 
   return (
     messages.map((message) => (
@@ -122,12 +68,6 @@ const Messages = () => {
 
 const MessagesList = ({ sendMessage }) => {
   const messages = useSelector(selectAllMessages);
-  // const dispatch = useDispatch();
-
-  // useEffect(() => {
-  //   dispatch(createChannel());
-  //   // const socket = ws.createWebsocket();
-  // }, []);
 
   return (
     <div className="col p-0 h-100">

@@ -9,7 +9,6 @@ import { channelsFetched } from '../features/channels/ChannelsSlice.jsx';
 import { messagesFetched, messageFetched } from '../features/messages/MessagesSlice.jsx';
 import MassageList from '../features/messages/MessagesList.jsx';
 import ChannelsList from '../features/channels/ChannelsList.jsx';
-// import { api } from './WebsocketApi.jsx';
 
 let socket = null;
 
@@ -59,7 +58,6 @@ const MainPage = () => {
 
   useEffect(() => {
     socket.on('newMessage', (data) => {
-      // console.log(data);
       dispatch(messageFetched(data));
     });
   }, []);
@@ -69,16 +67,12 @@ const MainPage = () => {
     setMessageStatus('sending');
     socket.volatile.emit('newMessage', message, withTimeout((response) => {
       setMessageStatus('filling');
-      // return 'truetrue';
       actions.resetForm();
     }, () => {
       setMessageStatus('failed');
       console.log('timeout!');
     }, 1000));
   };
-  // useEffect(() => {
-  //   api.endpoints.start.select();
-  // }, []);
 
   return (
     <Container className="h-100 my-4 overflow-hidden rounded shadow">

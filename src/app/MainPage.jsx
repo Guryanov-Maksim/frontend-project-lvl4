@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import { Container, Row, Col } from 'react-bootstrap';
@@ -44,6 +44,7 @@ const MainPage = () => {
   useEffect(() => {
     const fetchContent = async () => {
       const { data } = await axios.get(routes.contentPath(), { headers: getAuthHeader() });
+      console.log(data);
       const { messages, channels, currentChannelId } = data;
       dispatch(channelsFetched({ channels, currentChannelId }));
       dispatch(messagesFetched(messages));

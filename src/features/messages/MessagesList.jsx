@@ -13,6 +13,7 @@ const MessageExcerpt = ({ message }) => (
 
 const MessageForm = ({ sendMessage }) => {
   const [messageStatus, setMessageStatus] = useState('filling');
+  const currentChannelId = useSelector(selectCurrentChannelId);
 
   return (
     <div className="mt-auto px-5 py-3">
@@ -21,7 +22,12 @@ const MessageForm = ({ sendMessage }) => {
           text: '',
         }}
         onSubmit={(values, actions) => {
-          const message = { text: values.text };
+          const { username } = JSON.parse(localStorage.getItem('userId'));
+          const message = {
+            text: values.text,
+            channelId: currentChannelId,
+            username,
+          };
           sendMessage(message, { setMessageStatus, actions });
         }}
       >

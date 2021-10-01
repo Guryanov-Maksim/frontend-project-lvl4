@@ -2,11 +2,33 @@ import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import { Container, Row, Col } from 'react-bootstrap';
+import { io } from 'socket.io-client';
 
 import routes from '../routes.js';
 import { channelsFetched } from '../features/channels/ChannelsSlice.jsx';
-import { messagesFetched } from '../features/messages/MessagesSlice.jsx';
+import { messagesFetched, messageFetched } from '../features/messages/MessagesSlice.jsx';
+import MassageList from '../features/messages/MessagesList.jsx';
 import ChannelsList from '../features/channels/ChannelsList.jsx';
+// import { api } from './WebsocketApi.jsx';
+
+let socket = null;
+
+const withTimeout = (onSuccess, onTimeout, timeout) => {
+  let called = false;
+
+  const timer = setTimeout(() => {
+    if (called) return;
+    called = true;
+    onTimeout();
+  }, timeout);
+
+  return (...args) => {
+    if (called) return;
+    called = true;
+    clearTimeout(timer);
+    onSuccess.apply(this, args);
+  };
+};
 
 const getAuthHeader = () => {
   const userId = JSON.parse(localStorage.getItem('userId'));
@@ -17,7 +39,7 @@ const getAuthHeader = () => {
   return {};
 };
 
-const NotFound = () => {
+const MainPage = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -31,16 +53,45 @@ const NotFound = () => {
     fetchContent();
   }, []);
 
+  useEffect(() => {
+    socket = io();
+  }, []);
+
+  useEffect(() => {
+    socket.on('newMessage', (data) => {
+      // console.log(data);
+      dispatch(messageFetched(data));
+    });
+  }, []);
+
+  const sendMessage = (message, callbacks) => {
+    const { setMessageStatus, actions } = callbacks;
+    setMessageStatus('sending');
+    socket.volatile.emit('newMessage', message, withTimeout((response) => {
+      setMessageStatus('filling');
+      // return 'truetrue';
+      actions.resetForm();
+    }, () => {
+      setMessageStatus('failed');
+      console.log('timeout!');
+    }, 1000));
+  };
+  // useEffect(() => {
+  //   api.endpoints.start.select();
+  // }, []);
+
   return (
     <Container className="h-100 my-4 overflow-hidden rounded shadow">
       <Row className="h-100 bg-white flex-md-row">
         <Col className="col-4 col-md-2 border-end pt-5 px-0 bg-light">
           <ChannelsList />
         </Col>
-        <Col className="p-0 h-100">2 of 2</Col>
+        <Col className="p-0 h-100">
+          <MassageList sendMessage={sendMessage} />
+        </Col>
       </Row>
     </Container>
   );
 };
 
-export default NotFound;
+export default MainPage;

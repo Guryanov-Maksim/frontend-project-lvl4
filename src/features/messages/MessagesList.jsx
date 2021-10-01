@@ -15,22 +15,24 @@ const MessageForm = ({ sendMessage }) => {
   const [messageStatus, setMessageStatus] = useState('filling');
 
   return (
-    <Formik
-      initialValues={{
-        text: '',
-      }}
-      onSubmit={(values, actions) => {
-        const message = { text: values.text };
-        sendMessage(message, { setMessageStatus, actions });
-      }}
-    >
-      {({ values }) => (
-        <Form>
-          <Field name="text" placeholder="Enter your message..." />
-          <button disabled={values.text === '' || messageStatus === 'sending'} type="submit">Submit</button>
-        </Form>
-      )}
-    </Formik>
+    <div className="mt-auto px-5 py-3">
+      <Formik
+        initialValues={{
+          text: '',
+        }}
+        onSubmit={(values, actions) => {
+          const message = { text: values.text };
+          sendMessage(message, { setMessageStatus, actions });
+        }}
+      >
+        {({ values }) => (
+          <Form>
+            <Field name="text" placeholder="Enter your message..." />
+            <button disabled={values.text === '' || messageStatus === 'sending'} type="submit">Submit</button>
+          </Form>
+        )}
+      </Formik>
+    </div>
   );
 };
 

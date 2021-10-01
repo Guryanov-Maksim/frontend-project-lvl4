@@ -75,16 +75,18 @@ const MainPage = () => {
   };
 
   return (
-    <Container className="h-100 my-4 overflow-hidden rounded shadow">
-      <Row className="h-100 bg-white flex-md-row">
-        <Col className="col-4 col-md-2 border-end pt-5 px-0 bg-light">
-          <ChannelsList />
-        </Col>
-        <Col className="p-0 h-100">
-          <MassageList sendMessage={sendMessage} />
-        </Col>
-      </Row>
-    </Container>
+    <div className="d-flex flex-column h-100">
+      <Container className="h-100 my-4 overflow-hidden rounded shadow">
+        <Row className="h-100 bg-white flex-md-row">
+          <Col className="col-4 col-md-2 border-end pt-5 px-0 bg-light">
+            <ChannelsList />
+          </Col>
+          <Col className="p-0 h-100">
+            <MassageList sendMessage={sendMessage} />
+          </Col>
+        </Row>
+      </Container>
+    </div>
   );
 };
 

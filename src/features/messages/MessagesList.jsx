@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Formik, Field, Form } from 'formik';
 import { useSelector } from 'react-redux';
 
 import { selectAllMessages } from './MessagesSlice.jsx';
 import { selectCurrentChannelId, selectAllChannels } from '../channels/ChannelsSlice.jsx';
+import { wsContext } from '../../contexts/index.jsx';
 
 const MessageExcerpt = ({ message }) => (
   <div className="text-break mb-2">
@@ -11,7 +12,8 @@ const MessageExcerpt = ({ message }) => (
   </div>
 );
 
-const MessageForm = ({ sendMessage }) => {
+const MessageForm = () => {
+  const ws = useContext(wsContext);
   const [messageStatus, setMessageStatus] = useState('filling');
   const currentChannelId = useSelector(selectCurrentChannelId);
 
@@ -28,7 +30,7 @@ const MessageForm = ({ sendMessage }) => {
             channelId: currentChannelId,
             username,
           };
-          sendMessage(message, { setMessageStatus, actions });
+          ws.sendMessage(message, { setMessageStatus, actions });
         }}
       >
         {({ values }) => (
@@ -70,7 +72,7 @@ const Messages = ({ messages }) => (
   ))
 );
 
-const MessagesList = ({ sendMessage }) => {
+const MessagesList = () => {
   const allMessages = useSelector(selectAllMessages);
   const currentChannelId = useSelector(selectCurrentChannelId);
   const activeChannelMessages = allMessages.filter((m) => m.channelId === currentChannelId);
@@ -80,7 +82,7 @@ const MessagesList = ({ sendMessage }) => {
       <div className="d-flex flex-column h-100">
         <MessagesHeader messagesCount={activeChannelMessages.length} />
         <Messages messages={activeChannelMessages} />
-        <MessageForm sendMessage={sendMessage} />
+        <MessageForm />
       </div>
     </div>
   );

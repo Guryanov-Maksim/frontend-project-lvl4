@@ -1,19 +1,17 @@
-import React, { useEffect, useRef, useState } from 'react';
-import _ from 'lodash';
-import { Formik, Form, Field } from 'formik';
+import React, { useEffect, useRef, useContext } from 'react';
+import { Formik, Form } from 'formik';
 import { Modal, FormGroup, FormControl } from 'react-bootstrap';
-import { useDispatch } from 'react-redux';
 
-const generateOnSubmit = ({ addChannel, onHide, setChannelStatus }) => (values) => {
+import { wsContext } from '../../contexts/index.jsx';
+
+const generateOnSubmit = ({ addChannel, onHide, inputRef }) => (values) => {
   const channel = { name: values.body, removable: true };
-  addChannel(channel, { setChannelStatus });
-  onHide();
+  addChannel(channel, { inputRef, onHide });
 };
 
 const Add = (props) => {
+  const ws = useContext(wsContext);
   const { onHide, modalInfo } = props;
-  // const f = useFormik({ onSubmit: generateOnSubmit(props), initialValues: { body: '' } });
-  const [channelStatus, setChannelStatus] = useState('filling');
 
   const inputRef = useRef();
 
@@ -32,7 +30,7 @@ const Add = (props) => {
           initialValues={{
             body: '',
           }}
-          onSubmit={generateOnSubmit({ ...props, setChannelStatus })}
+          onSubmit={generateOnSubmit({ ...props, addChannel: ws.addChannel, inputRef })}
         >
           {({ handleChange, handleBlur }) => (
             <Form>
@@ -56,18 +54,3 @@ const Add = (props) => {
 };
 
 export default Add;
-
-// <form onSubmit={f.handleSubmit}>
-//           <FormGroup>
-//             <FormControl
-//               required
-//               ref={inputRef}
-//               onChange={f.handleChange}
-//               onBlur={f.handleBlur}
-//               value={f.values.body}
-//               data-testid="input-body"
-//               name="body"
-//             />
-//           </FormGroup>
-//           <input type="submit" className="btn btn-primary" value="submit" />
-//         </form>

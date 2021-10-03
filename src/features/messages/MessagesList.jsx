@@ -64,24 +64,22 @@ const MessagesHeader = ({ messagesCount }) => {
   );
 };
 
-const Messages = () => {
-  const messages = useSelector(selectAllMessages);
-
-  return (
-    messages.map((message) => (
-      <MessageExcerpt key={message.id} message={message} />
-    ))
-  );
-};
+const Messages = ({ messages }) => (
+  messages.map((message) => (
+    <MessageExcerpt key={message.id} message={message} />
+  ))
+);
 
 const MessagesList = ({ sendMessage }) => {
-  const messages = useSelector(selectAllMessages);
+  const allMessages = useSelector(selectAllMessages);
+  const currentChannelId = useSelector(selectCurrentChannelId);
+  const activeChannelMessages = allMessages.filter((m) => m.channelId === currentChannelId);
 
   return (
     <div className="col p-0 h-100">
       <div className="d-flex flex-column h-100">
-        <MessagesHeader messagesCount={messages.length} />
-        <Messages />
+        <MessagesHeader messagesCount={activeChannelMessages.length} />
+        <Messages messages={activeChannelMessages} />
         <MessageForm sendMessage={sendMessage} />
       </div>
     </div>

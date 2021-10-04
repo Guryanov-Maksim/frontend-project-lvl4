@@ -37,6 +37,7 @@ const WsProvider = ({ children }) => {
       socket.on('newChannel', (data) => {
         console.log(data);
         dispatch(channelFetched({ channel: data }));
+        dispatch(currentChannelIdChanged({ id: data.id }));
       });
       socket.on('removeChannel', ({ id }) => {
         dispatch(channelRemoved({ id }));

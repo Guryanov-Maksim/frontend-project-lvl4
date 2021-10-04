@@ -4,7 +4,7 @@ import { io } from 'socket.io-client';
 
 import { wsContext } from '../contexts/index.jsx';
 import { messageFetched } from '../features/messages/MessagesSlice.jsx';
-import { channelFetched, channelRemoved, currentChannelIdChanged } from '../features/channels/ChannelsSlice.jsx';
+import { channelFetched, channelRemoved, currentChannelIdChanged, channelRenamed } from '../features/channels/ChannelsSlice.jsx';
 
 const withTimeout = (onSuccess, onTimeout, timeout) => {
   let called = false;
@@ -39,8 +39,13 @@ const WsProvider = ({ children }) => {
         dispatch(channelFetched({ channel: data }));
         dispatch(currentChannelIdChanged({ id: data.id }));
       });
+
       socket.on('removeChannel', ({ id }) => {
         dispatch(channelRemoved({ id }));
+      });
+
+      socket.on('renameChannel', (channel) => {
+        dispatch(channelRenamed({ renamedChannel: channel }));
       });
     }
   }, [socket]);
@@ -77,10 +82,22 @@ const WsProvider = ({ children }) => {
     }, 1000));
   };
 
+  const renameChannel = ({ id, newName }, callbacks) => {
+    const { inputRef, onHide, actions } = callbacks;
+    socket.volatile.emit('renameChannel', { id, name: newName }, withTimeout((response) => {
+      onHide();
+    }, () => {
+      inputRef.current.focus();
+      actions.setSubmitting(false);
+      console.log('renameChannel timeout!');
+    }, 2000));
+  };
+
   const ws = {
     sendMessage,
     addChannel,
     removeChannel,
+    renameChannel,
   };
 
   return (

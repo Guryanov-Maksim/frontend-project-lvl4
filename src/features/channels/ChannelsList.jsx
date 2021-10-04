@@ -22,15 +22,26 @@ const ChannelExcerpt = ({ channel }) => {
     dispatch(modalToggled({ isOpen: true, type: 'removing', extra: id }));
   };
 
+  const showRenameModalHandler = (name) => () => {
+    dispatch(modalToggled({ isOpen: true, type: 'renaming', extra: name }));
+  };
+
   return (
     <Nav.Item as="li" className="w-100">
       <Button variant="" className={classes} onClick={onClickHandler(channel.id)}>
         <span className="me-1">#</span>
         {channel.name}
       </Button>
-      {channel.removable && (<Button variant="" className="w-100 rounded-0 text-start, btn-secondary, bg-red" onClick={showModalHandler(channel.id)}>
-          Remove
-        </Button>)}
+      {channel.removable && (
+        <>
+          <Button variant="" className="w-100 rounded-0 text-start, btn-secondary, bg-red" onClick={showModalHandler(channel.id)}>
+            Remove
+          </Button>
+          <Button variant="" className="w-100 rounded-0 text-start, btn-secondary, bg-red" onClick={showRenameModalHandler(channel)}>
+            Rename
+          </Button>
+        </>
+      )}
     </Nav.Item>
   );
 };

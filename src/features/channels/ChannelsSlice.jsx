@@ -22,6 +22,11 @@ const channelsSlice = createSlice({
     channelRemoved(state, { payload: { id } }) {
       state.channels = state.channels.filter((channel) => channel.id !== id);
     },
+    channelRenamed(state, { payload: { renamedChannel } }) {
+      state.channels = state.channels.map((channel) => (
+        channel.id === renamedChannel.id ? renamedChannel : channel
+      ));
+    },
   },
 });
 
@@ -30,6 +35,7 @@ export const {
   channelFetched,
   currentChannelIdChanged,
   channelRemoved,
+  channelRenamed,
 } = channelsSlice.actions;
 
 export default channelsSlice.reducer;

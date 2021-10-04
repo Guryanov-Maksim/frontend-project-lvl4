@@ -19,10 +19,18 @@ const channelsSlice = createSlice({
     currentChannelIdChanged(state, { payload: { id } }) {
       state.currentChannelId = id; // eslint-disable-line no-param-reassign
     },
+    channelRemoved(state, { payload: { id } }) {
+      state.channels = state.channels.filter((channel) => channel.id !== id);
+    },
   },
 });
 
-export const { channelsFetched, channelFetched, currentChannelIdChanged } = channelsSlice.actions;
+export const {
+  channelsFetched,
+  channelFetched,
+  currentChannelIdChanged,
+  channelRemoved,
+} = channelsSlice.actions;
 
 export default channelsSlice.reducer;
 

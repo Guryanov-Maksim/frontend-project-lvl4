@@ -4,7 +4,7 @@ import { io } from 'socket.io-client';
 
 import { wsContext } from '../contexts/index.jsx';
 import { messageFetched } from '../features/messages/MessagesSlice.jsx';
-import { channelFetched } from '../features/channels/ChannelsSlice.jsx';
+import { channelFetched, channelRemoved, currentChannelIdChanged } from '../features/channels/ChannelsSlice.jsx';
 
 const withTimeout = (onSuccess, onTimeout, timeout) => {
   let called = false;
@@ -38,6 +38,9 @@ const WsProvider = ({ children }) => {
         console.log(data);
         dispatch(channelFetched({ channel: data }));
       });
+      socket.on('removeChannel', ({ id }) => {
+        dispatch(channelRemoved({ id }));
+      });
     }
   }, [socket]);
 
@@ -63,9 +66,20 @@ const WsProvider = ({ children }) => {
     }, 1000));
   };
 
+  const removeChannel = (id, callbacks) => {
+    const { onHide, defautlChannelId } = callbacks;
+    socket.volatile.emit('removeChannel', { id }, withTimeout((response) => {
+      dispatch(currentChannelIdChanged({ id: defautlChannelId }));
+      onHide();
+    }, () => {
+      console.log('timeout!');
+    }, 1000));
+  };
+
   const ws = {
     sendMessage,
     addChannel,
+    removeChannel,
   };
 
   return (

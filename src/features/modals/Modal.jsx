@@ -12,16 +12,16 @@ const modals = {
   renaming: Rename,
 };
 
-const renderModal = ({ modalInfo, hideModal, addChannel }) => {
+const renderModal = ({ modalInfo, hideModal }) => {
   if (!modalInfo.type) {
     return null;
   }
 
   const Component = modals[modalInfo.type];
-  return <Component modalInfo={modalInfo} addChannel={addChannel} onHide={hideModal} />;
+  return <Component modalInfo={modalInfo} onHide={hideModal} />;
 };
 
-const Modal = ({ addChannel }) => {
+const Modal = () => {
   const dispatch = useDispatch();
   const modalInfo = useSelector(selectModal);
   const hideModal = () => dispatch(modalToggled({ isOpen: false, type: null, extra: null }));
@@ -33,7 +33,7 @@ const Modal = ({ addChannel }) => {
   // const [channelStatus, setChannelStatus] = useState('filling');
 
   return (
-    renderModal({ modalInfo, hideModal, addChannel })
+    renderModal({ modalInfo, hideModal })
   );
 };
 

@@ -9,6 +9,7 @@ import { modalToggled } from '../modals/ModalsSlice.js';
 const ChannelExcerpt = ({ channel }) => {
   const dispatch = useDispatch();
   const currentChannelId = useSelector(selectCurrentChannelId);
+
   const classes = cn('w-100 rounded-0 text-start', {
     'btn-secondary': currentChannelId === channel.id,
   });
@@ -17,12 +18,19 @@ const ChannelExcerpt = ({ channel }) => {
     dispatch(currentChannelIdChanged({ id }));
   };
 
+  const showModalHandler = (id) => () => {
+    dispatch(modalToggled({ isOpen: true, type: 'removing', extra: id }));
+  };
+
   return (
     <Nav.Item as="li" className="w-100">
       <Button variant="" className={classes} onClick={onClickHandler(channel.id)}>
         <span className="me-1">#</span>
         {channel.name}
       </Button>
+      {channel.removable && (<Button variant="" className="w-100 rounded-0 text-start, btn-secondary, bg-red" onClick={showModalHandler(channel.id)}>
+          Remove
+        </Button>)}
     </Nav.Item>
   );
 };

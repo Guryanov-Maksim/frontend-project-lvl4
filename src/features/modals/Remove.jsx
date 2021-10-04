@@ -1,24 +1,17 @@
-import React, { useEffect, useRef, useContext } from 'react';
+import React, { useContext } from 'react';
 import { Formik, Form } from 'formik';
 import { Modal, Button } from 'react-bootstrap';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { wsContext } from '../../contexts/index.jsx';
-import { selectAllChannels, currentChannelIdChanged } from '../channels/ChannelsSlice.jsx';
+import { selectAllChannels } from '../channels/ChannelsSlice.jsx';
 
 const Remove = (props) => {
-  const dispatch = useDispatch();
   const channels = useSelector(selectAllChannels);
   const ws = useContext(wsContext);
   const { onHide, modalInfo } = props;
   const [defaultChannel] = channels;
   const defautlChannelId = defaultChannel.id;
-
-  // const 
-
-  // useEffect(() => {
-  //   inputRef.current.focus();
-  // }, []);
 
   return (
     <Modal show={modalInfo.isOpen} onHide={onHide}>
@@ -36,7 +29,7 @@ const Remove = (props) => {
             ws.removeChannel(modalInfo.extra, { onHide, defautlChannelId });
           }}
         >
-          {({ handleChange, handleBlur }) => (
+          {() => (
             <Form>
               <Button variant="secondary" onClick={onHide}>
                 Cancel

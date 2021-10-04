@@ -63,10 +63,11 @@ const WsProvider = ({ children }) => {
   };
 
   const addChannel = (channel, callbacks) => {
-    const { inputRef, onHide } = callbacks;
+    const { inputRef, onHide, actions } = callbacks;
     socket.volatile.emit('newChannel', channel, withTimeout((response) => {
       onHide();
     }, () => {
+      actions.setSubmitting(false);
       inputRef.current.focus();
       console.log('timeout!');
     }, 1000));

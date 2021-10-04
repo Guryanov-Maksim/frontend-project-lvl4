@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useContext } from 'react';
-import { Formik, Form } from 'formik';
-import { Modal, FormGroup, FormControl } from 'react-bootstrap';
+import { Formik } from 'formik';
+import { Modal, Form } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { wsContext } from '../../contexts/index.jsx';
@@ -29,7 +29,17 @@ const Add = (props) => {
           initialValues={{
             body: '',
           }}
-          onSubmit={(values) => {
+          validateOnChange={false} // for validation on submit
+          validateOnBlur={false} // for validation on submit
+          validate={(values) => {
+            const errors = {};
+            const isChannelAlreadyExist = !!channels.find((ch) => ch.name === values.body);
+            if (isChannelAlreadyExist) {
+              errors.body = 'Already exist';
+            }
+            return errors;
+          }}
+          onSubmit={(values, actions) => {
             const newChannel = { name: values.body, removable: true };
             const addedChannel = channels.find((channel) => channel.name === newChannel.name);
             if (addedChannel) {
@@ -37,22 +47,34 @@ const Add = (props) => {
               onHide();
               return;
             }
-            ws.addChannel(newChannel, { inputRef, onHide });
+            ws.addChannel(newChannel, { inputRef, onHide, actions });
           }}
         >
-          {({ handleChange, handleBlur }) => (
-            <Form>
-              <FormGroup>
-                <FormControl
+          {({
+            handleChange,
+            handleBlur,
+            handleSubmit,
+            values,
+            isSubmitting,
+            errors,
+          }) => (
+            <Form onSubmit={handleSubmit}>
+              <Form.Group>
+                <Form.Control
                   required
                   ref={inputRef}
                   onChange={handleChange}
                   onBlur={handleBlur}
                   data-testid="input-body"
                   name="body"
+                  value={values.body}
+                  isInvalid={!!errors.body}
                 />
-              </FormGroup>
-              <button disabled={false} type="submit">Submit</button>
+                <Form.Control.Feedback type="invalid">
+                  {errors.body}
+                </Form.Control.Feedback>
+              </Form.Group>
+              <button disabled={isSubmitting} type="submit">Submit</button>
             </Form>
           )}
         </Formik>

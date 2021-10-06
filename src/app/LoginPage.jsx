@@ -7,11 +7,6 @@ import { Form, Button } from 'react-bootstrap';
 import routes from '../routes.js';
 import useAuth from '../hooks/index.jsx';
 
-const schema = yup.object().shape({
-  username: yup.string().trim().required(),
-  password: yup.string().trim().required(),
-});
-
 const LoginForm = () => {
   const [authFailed, setAuthFailed] = useState(false);
   const inputRef = useRef();
@@ -28,7 +23,6 @@ const LoginForm = () => {
       username: '',
       password: '',
     },
-    validationSchema: schema,
     onSubmit: async (values) => {
       setAuthFailed(false);
 

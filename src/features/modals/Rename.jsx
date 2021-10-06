@@ -69,6 +69,7 @@ const Rename = (props) => {
                   {errors.body}
                 </Form.Control.Feedback>
               </Form.Group>
+              <button disabled={isSubmitting} type="submit">Cancel</button>
               <button disabled={isSubmitting} type="submit">Rename</button>
             </Form>
           )}

@@ -13,6 +13,8 @@ if (process.env.NODE_ENV !== 'production') {
   localStorage.debug = 'chat:*';
 }
 
+// сюда нужно вынести вебсокеты
+
 ReactDOM.render(
   <Provider store={store}>
     <App />

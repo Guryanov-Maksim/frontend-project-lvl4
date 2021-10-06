@@ -8,6 +8,7 @@ import {
 } from 'react-router-dom';
 import LoginPage from './app/LoginPage.jsx';
 import MainPage from './app/MainPage.jsx';
+import SignUpPage from './app/SignUpPage.jsx';
 import authContext from './contexts/index.jsx';
 import useAuth from './hooks/index.jsx';
 
@@ -64,6 +65,9 @@ const App = () => (
       <Switch>
         <Route exact path="/login">
           <LoginPage />
+        </Route>
+        <Route exact path="/signup">
+          <SignUpPage />
         </Route>
         <MainRoute path="/">
           <MainPage />

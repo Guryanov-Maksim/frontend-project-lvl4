@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useState, useEffect, useRef } from 'react';
 import { useFormik } from 'formik';
-import { useLocation, useHistory } from 'react-router-dom';
+import { useLocation, useHistory, Link } from 'react-router-dom';
 import * as yup from 'yup';
 import { Form, Button } from 'react-bootstrap';
 import routes from '../routes.js';
@@ -12,7 +12,7 @@ const schema = yup.object().shape({
   password: yup.string().trim().required(),
 });
 
-const LoginPage = () => {
+const LoginForm = () => {
   const [authFailed, setAuthFailed] = useState(false);
   const inputRef = useRef();
   const auth = useAuth();
@@ -94,5 +94,12 @@ const LoginPage = () => {
     </div>
   );
 };
+
+const LoginPage = () => (
+  <>
+    <LoginForm />
+    <Link to="/signup">Signup page</Link>
+  </>
+);
 
 export default LoginPage;

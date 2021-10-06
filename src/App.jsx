@@ -3,9 +3,10 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link,
   Redirect,
 } from 'react-router-dom';
+import { Navbar, Container, Button } from 'react-bootstrap';
+
 import LoginPage from './app/LoginPage.jsx';
 import MainPage from './app/MainPage.jsx';
 import SignUpPage from './app/SignUpPage.jsx';
@@ -56,23 +57,38 @@ const MainRoute = ({ children, path }) => {
   );
 };
 
+const AuthButton = () => {
+  const auth = useAuth();
+
+  return (
+    auth.loggedIn
+      ? <Button onClick={auth.logOut}>Выйти</Button>
+      : null
+  );
+};
+
 const App = () => (
   <AuthProvider>
     <Router>
-      <Link to="/">Default page</Link>
-      <Link to="/login">Login page</Link>
-
-      <Switch>
-        <Route exact path="/login">
-          <LoginPage />
-        </Route>
-        <Route exact path="/signup">
-          <SignUpPage />
-        </Route>
-        <MainRoute path="/">
-          <MainPage />
-        </MainRoute>
-      </Switch>
+      <div className="d-flex flex-column h-100">
+        <Navbar bg="light" expand="lg">
+          <Container>
+            <Navbar.Brand href="/">Hexlet Chat</Navbar.Brand>
+            <AuthButton />
+          </Container>
+        </Navbar>
+        <Switch>
+          <Route exact path="/login">
+            <LoginPage />
+          </Route>
+          <Route exact path="/signup">
+            <SignUpPage />
+          </Route>
+          <MainRoute path="/">
+            <MainPage />
+          </MainRoute>
+        </Switch>
+      </div>
     </Router>
   </AuthProvider>
 );

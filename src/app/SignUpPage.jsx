@@ -51,6 +51,10 @@ const SignUpPage = () => {
           auth.logIn();
           history.replace('/');
         } catch (err) {
+          if (err.response?.status === 409) {
+            setRegistrationFailed(true);
+            return;
+          }
           if (err.isAxiosError) {
             actions.setSubmitting(false);
             inputRef.current.focus();

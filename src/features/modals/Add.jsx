@@ -74,6 +74,7 @@ const Add = (props) => {
                   {errors.body}
                 </Form.Control.Feedback>
               </Form.Group>
+              <button disabled={isSubmitting} onClick={onHide} type="submit">Cancel</button>
               <button disabled={isSubmitting} type="submit">Submit</button>
             </Form>
           )}

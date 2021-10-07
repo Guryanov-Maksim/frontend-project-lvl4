@@ -15,14 +15,13 @@ module.exports = {
   output: {
     filename: 'main.js',
     path: path.join(__dirname, 'dist', 'public'),
-    publicPath: '/assets/', //Essentially, every file emitted to your output.path directory will be referenced from the output.publicPath location.
+    publicPath: '/assets/', // Essentially, every file emitted to your output.path directory will be referenced from the output.publicPath location.
   },
   devServer: {
-    // static: ['/assets/'], why does it not work????
     compress: true,
     port: 8080,
     host: '0.0.0.0',
-    publicPath: '/assets/',
+    static: '/assets/',
     historyApiFallback: true,
   },
   plugins: [

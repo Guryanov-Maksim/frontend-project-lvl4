@@ -2,8 +2,9 @@ import axios from 'axios';
 import React, { useState, useEffect, useRef } from 'react';
 import { useFormik } from 'formik';
 import { useLocation, useHistory, Link } from 'react-router-dom';
-import * as yup from 'yup';
 import { Form, Button } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
+
 import routes from '../routes.js';
 import useAuth from '../hooks/index.jsx';
 
@@ -13,6 +14,7 @@ const LoginForm = () => {
   const auth = useAuth();
   const location = useLocation();
   const history = useHistory();
+  const [t] = useTranslation();
 
   useEffect(() => {
     inputRef.current.focus();
@@ -51,7 +53,7 @@ const LoginForm = () => {
         <div className="col-sm-4">
           <Form onSubmit={formik.handleSubmit} className="p-3">
             <Form.Group>
-              <Form.Label htmlFor="username">Username</Form.Label>
+              <Form.Label htmlFor="username">{t('loginPage.username')}</Form.Label>
               <Form.Control
                 onChange={formik.handleChange}
                 value={formik.values.username}
@@ -66,7 +68,7 @@ const LoginForm = () => {
               />
             </Form.Group>
             <Form.Group>
-              <Form.Label htmlFor="password">Password</Form.Label>
+              <Form.Label htmlFor="password">{t('loginPage.password')}</Form.Label>
               <Form.Control
                 type="password"
                 onChange={formik.handleChange}
@@ -79,9 +81,11 @@ const LoginForm = () => {
                 isValid={!formik.errors.username}
                 isInvalid={authFailed}
               />
-              <Form.Control.Feedback type="invalid">the username or password is incorrect</Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid">
+                {t('errors.loginFailed')}
+              </Form.Control.Feedback>
             </Form.Group>
-            <Button type="submit" variant="outline-primary">Submit</Button>
+            <Button type="submit" variant="outline-primary">{t('loginPage.submitButton')}</Button>
           </Form>
         </div>
       </div>
@@ -89,11 +93,15 @@ const LoginForm = () => {
   );
 };
 
-const LoginPage = () => (
-  <>
-    <LoginForm />
-    <Link to="/signup">Signup page</Link>
-  </>
-);
+const LoginPage = () => {
+  const [t] = useTranslation();
+
+  return (
+    <>
+      <LoginForm />
+      <Link to="/signup">{t('loginPage.regLink')}</Link>
+    </>
+  );
+};
 
 export default LoginPage;

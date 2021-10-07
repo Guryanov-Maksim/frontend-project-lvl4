@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useContext } from 'react';
 import { Formik } from 'formik';
 import { Modal, Form } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
 import { wsContext } from '../../contexts/index.jsx';
 import { selectAllChannels, currentChannelIdChanged } from '../channels/ChannelsSlice.jsx';
@@ -11,6 +12,7 @@ const Add = (props) => {
   const channels = useSelector(selectAllChannels);
   const ws = useContext(wsContext);
   const { onHide, modalInfo } = props;
+  const [t] = useTranslation();
 
   const inputRef = useRef();
 
@@ -21,7 +23,7 @@ const Add = (props) => {
   return (
     <Modal show={modalInfo.isOpen} onHide={onHide}>
       <Modal.Header closeButton onHide={onHide}>
-        <Modal.Title>Add</Modal.Title>
+        <Modal.Title>{t('addModal.title')}</Modal.Title>
       </Modal.Header>
 
       <Modal.Body>
@@ -35,7 +37,7 @@ const Add = (props) => {
             const errors = {};
             const isChannelAlreadyExist = !!channels.find((ch) => ch.name === values.body);
             if (isChannelAlreadyExist) {
-              errors.body = 'Already exist';
+              errors.body = t('errors.sameName');
             }
             return errors;
           }}
@@ -74,8 +76,8 @@ const Add = (props) => {
                   {errors.body}
                 </Form.Control.Feedback>
               </Form.Group>
-              <button disabled={isSubmitting} onClick={onHide} type="submit">Cancel</button>
-              <button disabled={isSubmitting} type="submit">Submit</button>
+              <button disabled={isSubmitting} onClick={onHide} type="submit">{t('addModal.cancelButton')}</button>
+              <button disabled={isSubmitting} type="submit">{t('addModal.submitButton')}</button>
             </Form>
           )}
         </Formik>

@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { Formik, Field, Form } from 'formik';
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
 import { selectAllMessages } from './MessagesSlice.jsx';
 import { selectCurrentChannelId, selectAllChannels } from '../channels/ChannelsSlice.jsx';
@@ -16,6 +17,7 @@ const MessageForm = () => {
   const ws = useContext(wsContext);
   const [messageStatus, setMessageStatus] = useState('filling');
   const currentChannelId = useSelector(selectCurrentChannelId);
+  const [t] = useTranslation();
 
   return (
     <div className="mt-auto px-5 py-3">
@@ -35,8 +37,8 @@ const MessageForm = () => {
       >
         {({ values }) => (
           <Form>
-            <Field name="text" placeholder="Enter your message..." />
-            <button disabled={values.text === '' || messageStatus === 'sending'} type="submit">Submit</button>
+            <Field name="text" placeholder={t('messages.placeholder')} />
+            <button disabled={values.text === '' || messageStatus === 'sending'} type="submit">{t('messages.submitButton')}</button>
           </Form>
         )}
       </Formik>

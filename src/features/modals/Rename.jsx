@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useContext } from 'react';
 import { Formik } from 'formik';
 import { Modal, Form } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
 import { wsContext } from '../../contexts/index.jsx';
 import { selectAllChannels } from '../channels/ChannelsSlice.jsx';
@@ -10,6 +11,7 @@ const Rename = (props) => {
   const channels = useSelector(selectAllChannels);
   const ws = useContext(wsContext);
   const { onHide, modalInfo } = props;
+  const [t] = useTranslation();
 
   const inputRef = useRef();
 
@@ -20,7 +22,7 @@ const Rename = (props) => {
   return (
     <Modal show={modalInfo.isOpen} onHide={onHide}>
       <Modal.Header closeButton onHide={onHide}>
-        <Modal.Title>Rename?</Modal.Title>
+        <Modal.Title>{t('renameModal.title')}</Modal.Title>
       </Modal.Header>
 
       <Modal.Body>
@@ -34,7 +36,7 @@ const Rename = (props) => {
             const errors = {};
             const isChannelAlreadyExist = !!channels.find((ch) => ch.name === values.body);
             if (isChannelAlreadyExist) {
-              errors.body = 'Already exist';
+              errors.body = t('errors.sameName');
             }
             return errors;
           }}
@@ -69,8 +71,8 @@ const Rename = (props) => {
                   {errors.body}
                 </Form.Control.Feedback>
               </Form.Group>
-              <button disabled={isSubmitting} type="submit">Cancel</button>
-              <button disabled={isSubmitting} type="submit">Rename</button>
+              <button disabled={isSubmitting} type="submit">{t('renameModal.cancelButton')}</button>
+              <button disabled={isSubmitting} type="submit">{t('renameModal.submitButton')}</button>
             </Form>
           )}
         </Formik>

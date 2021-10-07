@@ -2,6 +2,7 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Nav, Button } from 'react-bootstrap';
 import cn from 'classnames';
+import { useTranslation } from 'react-i18next';
 
 import { selectAllChannels, selectCurrentChannelId, currentChannelIdChanged } from './ChannelsSlice.jsx';
 import { modalToggled } from '../modals/ModalsSlice.js';
@@ -9,6 +10,7 @@ import { modalToggled } from '../modals/ModalsSlice.js';
 const ChannelExcerpt = ({ channel }) => {
   const dispatch = useDispatch();
   const currentChannelId = useSelector(selectCurrentChannelId);
+  const [t] = useTranslation();
 
   const classes = cn('w-100 rounded-0 text-start', {
     'btn-secondary': currentChannelId === channel.id,
@@ -35,10 +37,10 @@ const ChannelExcerpt = ({ channel }) => {
       {channel.removable && (
         <>
           <Button variant="" className="w-100 rounded-0 text-start, btn-secondary, bg-red" onClick={showModalHandler(channel.id)}>
-            Remove
+            {t('channels.removeButton')}
           </Button>
           <Button variant="" className="w-100 rounded-0 text-start, btn-secondary, bg-red" onClick={showRenameModalHandler(channel)}>
-            Rename
+            {t('channels.renameButton')}
           </Button>
         </>
       )}
@@ -50,6 +52,7 @@ const ChannelsList = () => {
   const dispatch = useDispatch();
   const channels = useSelector(selectAllChannels);
   const showModalHandler = () => dispatch(modalToggled({ isOpen: true, type: 'adding' }));
+  const [t] = useTranslation();
   // const [modalInfo, setModalInfo] = useState({ type: null, item: null });
   // const [items, setItems] = useState([]);
   // const hideModal = () => setModalInfo({ type: null, item: null });
@@ -59,7 +62,7 @@ const ChannelsList = () => {
 
   return (
     <>
-      <button type="button" onClick={showModalHandler} data-testid="item-add" className="btn btn-secondary">add</button>
+      <button type="button" onClick={showModalHandler} data-testid="item-add" className="btn btn-secondary">{t('channels.addButton')}</button>
       <Nav as="ul" className="flex-column px-2">
         {channels.map((channel) => (
           <ChannelExcerpt key={channel.id} channel={channel} />

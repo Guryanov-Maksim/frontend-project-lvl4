@@ -67,10 +67,10 @@ const Add = (props) => {
                   ref={inputRef}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  data-testid="input-body"
                   name="body"
                   value={values.body}
                   isInvalid={!!errors.body}
+                  data-testid="add-channel"
                 />
                 <Form.Control.Feedback type="invalid">
                   {errors.body}

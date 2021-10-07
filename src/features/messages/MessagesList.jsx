@@ -37,7 +37,7 @@ const MessageForm = () => {
       >
         {({ values }) => (
           <Form>
-            <Field name="text" placeholder={t('messages.placeholder')} />
+            <Field name="text" data-testid="new-message" placeholder={t('messages.placeholder')} />
             <button disabled={values.text === '' || messageStatus === 'sending'} type="submit">{t('messages.submitButton')}</button>
           </Form>
         )}

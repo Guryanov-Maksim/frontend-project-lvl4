@@ -62,7 +62,7 @@ const Rename = (props) => {
                   ref={inputRef}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  data-testid="input-body"
+                  data-testid="rename-channel"
                   name="body"
                   value={values.body}
                   isInvalid={!!errors.body}

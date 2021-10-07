@@ -8,7 +8,7 @@ const mode = process.env.NODE_ENV || 'development';
 module.exports = {
   mode,
   devtool: 'inline-source-map',
-  // entry: './src/index.jsx',
+  entry: './src/index.js',
   resolve: {
     extensions: ['.js', '.jsx'],
   },
@@ -27,7 +27,7 @@ module.exports = {
   plugins: [
     new MiniCssExtractPlugin(),
     new HtmlWebpackPlugin({
-      filename: 'src/index.html',
+      template: 'src/index.html',
     }),
   ],
   module: {

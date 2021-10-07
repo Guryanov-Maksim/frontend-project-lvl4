@@ -23,7 +23,6 @@
   "homepage": "",
   "dependencies": {
     "@reduxjs/toolkit": "^1.6.1",
-    "@rollbar/react": "^0.8.0",
     "axios": "^0.21.4",
     "bootstrap": "^5.1.0",
     "classnames": "^2.3.1",

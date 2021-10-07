@@ -7,7 +7,7 @@ import ReactDOM from 'react-dom';
 import React from 'react';
 import { Provider } from 'react-redux';
 import { I18nextProvider } from 'react-i18next';
-import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
+// import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
 
 import i18n from './i18n.js';
 import store from './app/store.js';
@@ -17,10 +17,10 @@ if (process.env.NODE_ENV !== 'production') {
   localStorage.debug = 'chat:*';
 }
 
-const rollbarConfig = {
-  accessToken: 'bc37e9074f544386aa0bf55a590eda16',
-  environment: 'production',
-};
+// const rollbarConfig = {
+//   accessToken: 'bc37e9074f544386aa0bf55a590eda16',
+//   environment: 'production',
+// };
 
 // сюда нужно вынести вебсокеты
 const chat = document.querySelector('pre');
@@ -29,13 +29,13 @@ console.log(chat);
 ReactDOM.render(
   <Provider store={store}>
     <I18nextProvider i18n={i18n}>
-      <RollbarProvider config={rollbarConfig}>
+      {/* <RollbarProvider config={rollbarConfig}> */}
         <ErrorBoundary>
           <App />
         </ErrorBoundary>
-      </RollbarProvider>
+      {/* </RollbarProvider> */}
     </I18nextProvider>
   </Provider>,
-  document.getElementById('chat'),
+  // document.getElementById('chat'),
   chat,
 );

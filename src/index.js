@@ -9,8 +9,8 @@ import { Provider } from 'react-redux';
 import { I18nextProvider } from 'react-i18next';
 import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
 
-import i18n from './i18n';
-import store from './app/store';
+import i18n from './i18n.js';
+import store from './app/store.js';
 import App from './App.jsx';
 
 if (process.env.NODE_ENV !== 'production') {

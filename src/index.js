@@ -23,7 +23,7 @@ const rollbarConfig = {
 };
 
 // сюда нужно вынести вебсокеты
-const chat = document.querySelector('div');
+const chat = document.querySelector('#chat');
 console.log(document);
 
 ReactDOM.render(

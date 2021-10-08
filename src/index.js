@@ -24,7 +24,7 @@ const rollbarConfig = {
 
 // сюда нужно вынести вебсокеты
 const chat = document.querySelector('div');
-console.log(chat);
+console.log(document);
 
 ReactDOM.render(
   <Provider store={store}>

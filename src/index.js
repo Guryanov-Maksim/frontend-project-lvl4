@@ -31,7 +31,7 @@ ReactDOM.render(
     <I18nextProvider i18n={i18n}>
       <RollbarProvider config={rollbarConfig}>
         <ErrorBoundary>
-          <App />
+          <App />,
         </ErrorBoundary>
       </RollbarProvider>
     </I18nextProvider>

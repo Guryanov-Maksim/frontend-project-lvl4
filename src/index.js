@@ -23,8 +23,6 @@ const rollbarConfig = {
 };
 
 // сюда нужно вынести вебсокеты
-const chat = document.getElementById('chat')
-console.log(chat);
 
 ReactDOM.render(
   <Provider store={store}>
@@ -36,6 +34,5 @@ ReactDOM.render(
       </RollbarProvider>
     </I18nextProvider>
   </Provider>,
-  // document.getElementById('chat'),
-  chat,
+  document.getElementById('chat'),
 );

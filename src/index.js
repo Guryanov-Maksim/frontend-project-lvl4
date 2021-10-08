@@ -23,7 +23,7 @@ const rollbarConfig = {
 };
 
 // сюда нужно вынести вебсокеты
-const chat = document.querySelector('pre');
+const chat = document.querySelector('div');
 console.log(chat);
 
 ReactDOM.render(
@@ -31,11 +31,11 @@ ReactDOM.render(
     <I18nextProvider i18n={i18n}>
       <RollbarProvider config={rollbarConfig}>
         <ErrorBoundary>
-          <App />,
+          <App />
         </ErrorBoundary>
       </RollbarProvider>
     </I18nextProvider>
   </Provider>,
-  document.getElementById('chat'),
+  // document.getElementById('chat'),
   chat,
 );

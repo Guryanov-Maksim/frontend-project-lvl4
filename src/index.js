@@ -30,12 +30,12 @@ ReactDOM.render(
   <Provider store={store}>
     <I18nextProvider i18n={i18n}>
       {/* <RollbarProvider config={rollbarConfig}> */}
-        {/* <ErrorBoundary> */}
+        <ErrorBoundary>
           <App />
-        {/* </ErrorBoundary> */}
+        </ErrorBoundary>
       {/* </RollbarProvider> */}
     </I18nextProvider>
   </Provider>,
-  document.getElementById('chat'),
-  // chat,
+  // document.getElementById('chat'),
+  chat,
 );

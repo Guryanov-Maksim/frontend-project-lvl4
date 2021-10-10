@@ -56,8 +56,5 @@ export default async (socketClient) => {
     </Provider>
   );
 
-  if (document.getElementById('chat')) {
-    render(vdom, document.getElementById('chat'));
-  }
   return vdom;
 };

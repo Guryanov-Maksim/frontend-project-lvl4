@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useFormik } from 'formik';
 import { useLocation, useHistory, Link } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
@@ -9,6 +9,7 @@ import routes from '../routes.js';
 import useAuth from '../hooks/index.jsx';
 
 const LoginForm = () => {
+  const [authFailed, setAuthFailed] = useState(false);
   const inputRef = useRef();
   const auth = useAuth();
   const location = useLocation();
@@ -25,6 +26,8 @@ const LoginForm = () => {
       password: '',
     },
     onSubmit: async (values) => {
+      setAuthFailed(false);
+
       try {
         const res = await axios.post(routes.loginPath(), values);
         localStorage.setItem('userId', JSON.stringify(res.data));
@@ -33,6 +36,7 @@ const LoginForm = () => {
         history.replace(from);
       } catch (err) {
         if (err.isAxiosError && err.response.status === 401) {
+          setAuthFailed(true);
           inputRef.current.select();
           return;
         }
@@ -58,6 +62,7 @@ const LoginForm = () => {
                 required
                 ref={inputRef}
                 isValid={!formik.errors.username}
+                isInvalid={authFailed}
               />
             </Form.Group>
             <Form.Group>
@@ -72,10 +77,13 @@ const LoginForm = () => {
                 autoComplete="current-password"
                 required
                 isValid={!formik.errors.username}
+                isInvalid={authFailed}
               />
-              <Form.Control.Feedback type="invalid">
-                {t('errors.loginFailed')}
-              </Form.Control.Feedback>
+              {authFailed && (
+                <Form.Control.Feedback type="invalid" tooltip>
+                  {t('errors.loginFailed')}
+                </Form.Control.Feedback>
+              )}
             </Form.Group>
             <Button type="submit" variant="outline-primary">{t('loginPage.submitButton')}</Button>
           </Form>

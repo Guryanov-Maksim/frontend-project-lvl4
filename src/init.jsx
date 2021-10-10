@@ -24,8 +24,8 @@ const rollbarConfig = {
 
 // сюда нужно вынести вебсокеты
 
-export default async (socketClient = io) => {
-  await ReactDOM.render(
+export default (socketClient = io) => {
+  ReactDOM.render(
     <Provider store={store}>
       <I18nextProvider i18n={i18n}>
         <RollbarProvider config={rollbarConfig}>

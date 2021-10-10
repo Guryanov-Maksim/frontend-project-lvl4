@@ -29,7 +29,7 @@ const rollbarConfig = {
 
 // сюда нужно вынести вебсокеты
 
-export default async (socketClient = io) => {
+export default async (socketClient) => {
   const defaultLanguage = 'ru';
 
   yup.setLocale(errors);
@@ -48,7 +48,7 @@ export default async (socketClient = io) => {
     <Provider store={store}>
       <RollbarProvider config={rollbarConfig}>
         <ErrorBoundary>
-          <WsProvider socketClient={socketClient}>
+          <WsProvider socket={socketClient}>
             <App />
           </WsProvider>
         </ErrorBoundary>

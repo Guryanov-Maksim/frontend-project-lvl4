@@ -9,9 +9,14 @@ import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
 import { io } from 'socket.io-client';
 
 import WsProvider from './api/websocketApi.jsx';
-import i18n from './i18n.js';
+// import i18n from './i18n.js';
 import store from './app/store.js';
 import App from './App.jsx';
+
+import i18next from 'i18next';
+import { initReactI18next } from 'react-i18next';
+import * as yup from 'yup';
+import { ru, errors } from './locales/index.js';
 
 if (process.env.NODE_ENV !== 'production') {
   localStorage.debug = 'chat:*';
@@ -24,19 +29,30 @@ const rollbarConfig = {
 
 // сюда нужно вынести вебсокеты
 
-export default (socketClient = io) => {
-  ReactDOM.render(
+export default async (socketClient = io) => {
+  const defaultLanguage = 'ru';
+
+  yup.setLocale(errors);
+
+  await i18next
+    .use(initReactI18next)
+    .init({
+      lng: defaultLanguage,
+      debug: true,
+      resources: {
+        ru,
+      },
+    });
+
+  return (
     <Provider store={store}>
-      <I18nextProvider i18n={i18n}>
-        <RollbarProvider config={rollbarConfig}>
-          <ErrorBoundary>
-            <WsProvider socketClient={socketClient}>
-              <App />
-            </WsProvider>
-          </ErrorBoundary>
-        </RollbarProvider>
-      </I18nextProvider>
-    </Provider>,
-    document.getElementById('chat'),
+      <RollbarProvider config={rollbarConfig}>
+        <ErrorBoundary>
+          <WsProvider socketClient={socketClient}>
+            <App />
+          </WsProvider>
+        </ErrorBoundary>
+      </RollbarProvider>
+    </Provider>
   );
 };

@@ -32,9 +32,11 @@ const rollbarConfig = {
 export default async (socketClient) => {
   const defaultLanguage = 'ru';
 
+  const i18nInstance = i18next.createInstance();
+
   yup.setLocale(errors);
 
-  await i18next
+  await i18nInstance
     .use(initReactI18next)
     .init({
       lng: defaultLanguage,

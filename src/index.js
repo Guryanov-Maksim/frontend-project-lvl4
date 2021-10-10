@@ -17,4 +17,4 @@ const run = async () => {
 
 run();
 
-export default run;
+export default init;

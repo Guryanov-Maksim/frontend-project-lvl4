@@ -11,11 +11,13 @@
 import { io } from 'socket.io-client';
 
 import init from './init.jsx';
+// import { ru } from './locales';
 
 // import i18n from './i18n.js';
 // import store from './app/store.js';
 // import App from './App.jsx';
-init(io);
+const run = () => init(io);
+export default run;
 // if (process.env.NODE_ENV !== 'production') {
 //   localStorage.debug = 'chat:*';
 // }

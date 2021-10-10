@@ -1,7 +1,7 @@
 import 'core-js/stable/index.js'; // зачем эта зависимость?
 import 'regenerator-runtime/runtime.js'; // разобраться почему когда коментишь регенератор, но появляется CORS проблемы
 import '../assets/application.scss';
-import ReactDOM from 'react-dom';
+import { render } from 'react-dom';
 import React from 'react';
 import { Provider } from 'react-redux';
 import { I18nextProvider } from 'react-i18next';
@@ -44,7 +44,7 @@ export default async (socketClient) => {
       },
     });
 
-  return (
+  const vdom = (
     <Provider store={store}>
       <RollbarProvider config={rollbarConfig}>
         <ErrorBoundary>
@@ -55,4 +55,9 @@ export default async (socketClient) => {
       </RollbarProvider>
     </Provider>
   );
+
+  if (document.getElementById('chat')) {
+    render(vdom, document.getElementById('chat'));
+  }
+  return vdom;
 };

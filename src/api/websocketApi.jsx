@@ -23,10 +23,10 @@ const withTimeout = (onSuccess, onTimeout, timeout) => {
   };
 };
 
-const WsProvider = ({ children }) => {
+const WsProvider = ({ children, socketClient }) => {
   const dispatch = useDispatch();
 
-  const socket = io();
+  const socket = socketClient();
 
   useEffect(() => {
     if (socket !== null) {

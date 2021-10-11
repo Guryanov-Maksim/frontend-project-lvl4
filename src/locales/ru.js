@@ -36,7 +36,7 @@ export default {
     },
     messages: {
       placeholder: 'Введите сообщение...',
-      submitButton: 'Отправить',
+      submitButton: 'Послать cообщение',
     },
     addModal: {
       title: 'Добавить канал',

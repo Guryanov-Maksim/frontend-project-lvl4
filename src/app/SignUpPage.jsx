@@ -8,6 +8,10 @@ import { useTranslation } from 'react-i18next';
 import routes from '../routes.js';
 import useAuth from '../hooks/index.jsx';
 
+import { ru, errors } from '../locales/index.js';
+
+yup.setLocale(errors);
+
 const schema = yup.object().shape({
   username: yup
     .string()

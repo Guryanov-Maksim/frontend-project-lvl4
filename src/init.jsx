@@ -1,21 +1,22 @@
-import 'core-js/stable/index.js'; // зачем эта зависимость?
-import 'regenerator-runtime/runtime.js'; // разобраться почему когда коментишь регенератор, но появляется CORS проблемы
+// import 'core-js/stable/index.js'; // зачем эта зависимость?
+// import 'regenerator-runtime/runtime.js'; // разобраться почему когда коментишь регенератор, но появляется CORS проблемы
 import '../assets/application.scss';
-import { render } from 'react-dom';
+// import { render } from 'react-dom';
 import React from 'react';
 import { Provider } from 'react-redux';
-import { I18nextProvider } from 'react-i18next';
+// import { I18nextProvider } from 'react-i18next';
 import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
-import { io } from 'socket.io-client';
+// import { io } from 'socket.io-client';
+
+import i18n from 'i18next';
+import { initReactI18next, I18nextProvider } from 'react-i18next';
+import * as yup from 'yup';
 
 import WsProvider from './api/websocketApi.jsx';
 // import i18n from './i18n.js';
 import store from './app/store.js';
 import App from './App.jsx';
 
-import i18next from 'i18next';
-import { initReactI18next } from 'react-i18next';
-import * as yup from 'yup';
 import { ru, errors } from './locales/index.js';
 
 if (process.env.NODE_ENV !== 'production') {
@@ -31,6 +32,7 @@ const rollbarConfig = {
 // сюда нужно вынести вебсокеты
 
 export default async (socketClient) => {
+  // yup.setLocale(errors);
   const defaultLanguage = 'ru';
 
   const i18nInstance = i18n.createInstance();

@@ -38,7 +38,7 @@ const MessageForm = () => {
         {({ values }) => (
           <Form>
             <Field name="text" data-testid="new-message" placeholder={t('messages.placeholder')} />
-            <button disabled={values.text === '' || messageStatus === 'sending'} type="submit">
+            <button className="btn btn-group-vertical" disabled={values.text === '' || messageStatus === 'sending'} type="submit">
               <span className="visually-hidden">{t('messages.submitButton')}</span>
             </button>
           </Form>

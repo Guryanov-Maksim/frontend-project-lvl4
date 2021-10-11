@@ -33,9 +33,7 @@ const rollbarConfig = {
 export default async (socketClient) => {
   const defaultLanguage = 'ru';
 
-  const i18nInstance = i18next.createInstance();
-
-  yup.setLocale(errors);
+  const i18nInstance = i18n.createInstance();
 
   await i18nInstance
     .use(initReactI18next)
@@ -48,15 +46,17 @@ export default async (socketClient) => {
     });
 
   const vdom = (
-    <Provider store={store}>
-      <RollbarProvider config={rollbarConfig}>
-        <ErrorBoundary>
-          <WsProvider socket={socketClient}>
-            <App />
-          </WsProvider>
-        </ErrorBoundary>
-      </RollbarProvider>
-    </Provider>
+    <I18nextProvider i18n={i18nInstance}>
+      <Provider store={store}>
+        <RollbarProvider config={rollbarConfig}>
+          <ErrorBoundary>
+            <WsProvider socket={socketClient}>
+              <App />
+            </WsProvider>
+          </ErrorBoundary>
+        </RollbarProvider>
+      </Provider>
+    </I18nextProvider>
   );
 
   return vdom;

@@ -50,8 +50,8 @@ const LoginForm = () => {
       <div className="row justify-content-center pt-5">
         <div className="col-sm-4">
           <Form onSubmit={formik.handleSubmit} className="p-3">
-            <Form.Group>
-              <Form.Label htmlFor="username">{t('loginPage.username')}</Form.Label>
+            <h1 className="text-center mb-4">{t('loginPage.header')}</h1>
+            <Form.Floating className="mb-3 form-group">
               <Form.Control
                 onChange={formik.handleChange}
                 value={formik.values.username}
@@ -64,9 +64,9 @@ const LoginForm = () => {
                 isValid={!formik.errors.username}
                 isInvalid={authFailed}
               />
-            </Form.Group>
-            <Form.Group>
-              <Form.Label htmlFor="password">{t('loginPage.password')}</Form.Label>
+              <Form.Label htmlFor="username">{t('loginPage.username')}</Form.Label>
+            </Form.Floating>
+            <Form.Floating className="mb-3 form-group">
               <Form.Control
                 type="password"
                 onChange={formik.handleChange}
@@ -79,12 +79,13 @@ const LoginForm = () => {
                 isValid={!formik.errors.username}
                 isInvalid={authFailed}
               />
+              <Form.Label htmlFor="password">{t('loginPage.password')}</Form.Label>
               {authFailed && (
                 <Form.Control.Feedback type="invalid" tooltip>
                   {t('errors.loginFailed')}
                 </Form.Control.Feedback>
               )}
-            </Form.Group>
+            </Form.Floating>
             <Button type="submit" variant="outline-primary">{t('loginPage.submitButton')}</Button>
           </Form>
         </div>

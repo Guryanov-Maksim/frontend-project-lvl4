@@ -16,6 +16,7 @@ export default {
       button: 'Выйти',
     },
     loginPage: {
+      header: 'Войти',
       username: 'Ваш ник',
       password: 'Пароль',
       submitButton: 'Войти',

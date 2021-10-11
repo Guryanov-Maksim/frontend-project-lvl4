@@ -38,7 +38,9 @@ const MessageForm = () => {
         {({ values }) => (
           <Form>
             <Field name="text" data-testid="new-message" placeholder={t('messages.placeholder')} />
-            <button disabled={values.text === '' || messageStatus === 'sending'} type="submit">{t('messages.submitButton')}</button>
+            <button disabled={values.text === '' || messageStatus === 'sending'} type="submit">
+              <span className="visually-hidden">{t('messages.submitButton')}</span>
+            </button>
           </Form>
         )}
       </Formik>

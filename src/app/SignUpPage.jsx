@@ -3,12 +3,13 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Formik } from 'formik';
 import { useHistory } from 'react-router-dom';
 import * as yup from 'yup';
-import { Form, Button, FormControl } from 'react-bootstrap';
+import { Navbar, Container, Form, Button, FormControl } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import routes from '../routes.js';
 import useAuth from '../hooks/index.jsx';
 
 import { ru, errors } from '../locales/index.js';
+import Navigation from './Navigation.jsx';
 
 yup.setLocale(errors);
 
@@ -88,6 +89,8 @@ const SignUpPage = () => {
         touched,
         isSubmitting,
       }) => (
+        <>
+          <Navigation />
         <div className="container-fluid">
           <div className="row justify-content-center pt-5">
             <div className="col-sm-4">
@@ -158,6 +161,7 @@ const SignUpPage = () => {
             </div>
           </div>
         </div>
+        </>
       )}
     </Formik>
   );

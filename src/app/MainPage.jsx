@@ -10,6 +10,7 @@ import MassageList from '../features/messages/MessagesList.jsx';
 import ChannelsList from '../features/channels/ChannelsList.jsx';
 import Modal from '../features/modals/Modal.jsx';
 import WsProvider from '../api/websocketApi.jsx';
+import Navigation from './Navigation.jsx';
 
 const getAuthHeader = () => {
   const userId = JSON.parse(localStorage.getItem('userId'));
@@ -36,6 +37,7 @@ const MainPage = () => {
 
   return (
     <>
+      <Navigation />
       {/* <WsProvider> */}
       <Container className="h-100 my-4 overflow-hidden rounded shadow">
         <Row className="h-100 bg-white flex-md-row">

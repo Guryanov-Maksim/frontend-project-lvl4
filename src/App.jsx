@@ -5,7 +5,7 @@ import {
   Route,
   Redirect,
 } from 'react-router-dom';
-import { Navbar, Container, Button } from 'react-bootstrap';
+// import { Navbar, Container, Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 
 import LoginPage from './app/LoginPage.jsx';
@@ -58,16 +58,16 @@ const MainRoute = ({ children, path }) => {
   );
 };
 
-const AuthButton = () => {
-  const auth = useAuth();
-  const [t] = useTranslation();
+// const AuthButton = () => {
+//   const auth = useAuth();
+//   const [t] = useTranslation();
 
-  return (
-    auth.loggedIn
-      ? <Button onClick={auth.logOut}>{t('mainNav.button')}</Button>
-      : null
-  );
-};
+//   return (
+//     auth.loggedIn
+//       ? <Button onClick={auth.logOut}>{t('mainNav.button')}</Button>
+//       : null
+//   );
+// };
 
 const App = () => {
   const [t] = useTranslation();
@@ -75,12 +75,6 @@ const App = () => {
     <AuthProvider>
       <Router>
         <div className="d-flex flex-column h-100">
-          <Navbar bg="light" expand="lg">
-            <Container>
-              <Navbar.Brand href="/">{t('mainNav.mainPageLink')}</Navbar.Brand>
-              <AuthButton />
-            </Container>
-          </Navbar>
           <Switch>
             <Route exact path="/login">
               <LoginPage />

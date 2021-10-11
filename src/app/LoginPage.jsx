@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 
 import routes from '../routes.js';
 import useAuth from '../hooks/index.jsx';
+import Navigation from './Navigation.jsx';
 
 const LoginForm = () => {
   const [authFailed, setAuthFailed] = useState(false);
@@ -46,6 +47,8 @@ const LoginForm = () => {
   });
 
   return (
+    <>
+    <Navigation />
     <div className="container-fluid">
       <div className="row justify-content-center pt-5">
         <div className="col-sm-4">
@@ -91,6 +94,7 @@ const LoginForm = () => {
         </div>
       </div>
     </div>
+  </>
   );
 };
 

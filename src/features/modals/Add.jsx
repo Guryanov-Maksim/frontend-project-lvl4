@@ -76,7 +76,7 @@ const Add = (props) => {
                   {errors.body}
                 </Form.Control.Feedback>
               </Form.Group>
-              <button disabled={isSubmitting} onClick={onHide} type="submit">{t('addModal.cancelButton')}</button>
+              <button disabled={isSubmitting} onClick={onHide} type="button">{t('addModal.cancelButton')}</button>
               <button disabled={isSubmitting} type="submit">{t('addModal.submitButton')}</button>
             </Form>
           )}

@@ -5,8 +5,6 @@ import {
   Route,
   Redirect,
 } from 'react-router-dom';
-// import { Navbar, Container, Button } from 'react-bootstrap';
-import { useTranslation } from 'react-i18next';
 
 import LoginPage from './app/LoginPage.jsx';
 import MainPage from './app/MainPage.jsx';
@@ -21,10 +19,6 @@ const isAuthUser = () => {
   if (userId && userId.token) {
     return true;
   }
-
-  // if (userId) {
-  //   return true;
-  // }
 
   return false;
 };
@@ -58,38 +52,24 @@ const MainRoute = ({ children, path }) => {
   );
 };
 
-// const AuthButton = () => {
-//   const auth = useAuth();
-//   const [t] = useTranslation();
-
-//   return (
-//     auth.loggedIn
-//       ? <Button onClick={auth.logOut}>{t('mainNav.button')}</Button>
-//       : null
-//   );
-// };
-
-const App = () => {
-  const [t] = useTranslation();
-  return (
-    <AuthProvider>
-      <Router>
-        <div className="d-flex flex-column h-100">
-          <Switch>
-            <Route exact path="/login">
-              <LoginPage />
-            </Route>
-            <Route exact path="/signup">
-              <SignUpPage />
-            </Route>
-            <MainRoute path="/">
-              <MainPage />
-            </MainRoute>
-          </Switch>
-        </div>
-      </Router>
-    </AuthProvider>
-  );
-};
+const App = () => (
+  <AuthProvider>
+    <Router>
+      <div className="d-flex flex-column h-100">
+        <Switch>
+          <Route exact path="/login">
+            <LoginPage />
+          </Route>
+          <Route exact path="/signup">
+            <SignUpPage />
+          </Route>
+          <MainRoute path="/">
+            <MainPage />
+          </MainRoute>
+        </Switch>
+      </div>
+    </Router>
+  </AuthProvider>
+);
 
 export default App;

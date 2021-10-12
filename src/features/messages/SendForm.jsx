@@ -4,17 +4,10 @@ import { Form, Button } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
-import { selectAllMessages } from './MessagesSlice.jsx';
-import { selectCurrentChannelId, selectAllChannels } from '../channels/ChannelsSlice.jsx';
+import { selectCurrentChannelId } from '../channels/ChannelsSlice.jsx';
 import { wsContext } from '../../contexts/index.jsx';
 
-const MessageExcerpt = ({ message }) => (
-  <div className="text-break mb-2">
-    {message.text}
-  </div>
-);
-
-const MessageForm = () => {
+const SendForm = () => {
   const ws = useContext(wsContext);
   const currentChannelId = useSelector(selectCurrentChannelId);
   const { t } = useTranslation();
@@ -72,48 +65,4 @@ const MessageForm = () => {
   );
 };
 
-const MessagesHeader = ({ messagesCount }) => {
-  const activeChannelId = useSelector(selectCurrentChannelId);
-  const channels = useSelector(selectAllChannels);
-  const currentChannel = channels.find((channel) => channel.id === activeChannelId);
-
-  return (
-    <>
-      {currentChannel && (
-        <div className="bg-light mb-4 p-3 shadow-sm small">
-          <p className="m-0">
-            <b>
-              #
-              {currentChannel.name}
-              {messagesCount}
-            </b>
-          </p>
-        </div>
-      )}
-    </>
-  );
-};
-
-const Messages = ({ messages }) => (
-  messages.map((message) => (
-    <MessageExcerpt key={message.id} message={message} />
-  ))
-);
-
-const MessagesList = () => {
-  const allMessages = useSelector(selectAllMessages);
-  const currentChannelId = useSelector(selectCurrentChannelId);
-  const activeChannelMessages = allMessages.filter((m) => m.channelId === currentChannelId);
-
-  return (
-    <div className="col p-0 h-100">
-      <div className="d-flex flex-column h-100">
-        <MessagesHeader messagesCount={activeChannelMessages.length} />
-        <Messages messages={activeChannelMessages} />
-        <MessageForm />
-      </div>
-    </div>
-  );
-};
-
-export default MessagesList;
+export default SendForm;

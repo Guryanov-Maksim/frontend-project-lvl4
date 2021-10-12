@@ -25,6 +25,7 @@ const withTimeout = (onSuccess, onTimeout, timeout) => {
 
 const WsProvider = ({ children, socket = io() }) => {
   const dispatch = useDispatch();
+  const timeout = 1000;
 
   useEffect(() => {
     if (socket !== null) {

@@ -54,7 +54,7 @@ const LoginForm = () => {
         <div className="col-sm-4">
           <Form onSubmit={formik.handleSubmit} className="p-3">
             <h1 className="text-center mb-4">{t('loginPage.header')}</h1>
-            <Form.Floating className="mb-3 form-group">
+            <Form.Group className="mb-3 form-group">
               <Form.Control
                 onChange={formik.handleChange}
                 value={formik.values.username}
@@ -68,8 +68,8 @@ const LoginForm = () => {
                 isInvalid={authFailed}
               />
               <Form.Label htmlFor="username">{t('loginPage.username')}</Form.Label>
-            </Form.Floating>
-            <Form.Floating className="mb-3 form-group">
+            </Form.Group>
+            <Form.Group className="mb-3 form-group">
               <Form.Control
                 type="password"
                 onChange={formik.handleChange}
@@ -88,7 +88,7 @@ const LoginForm = () => {
                   {t('errors.loginFailed')}
                 </Form.Control.Feedback>
               )}
-            </Form.Floating>
+            </Form.Group>
             <Button type="submit" variant="outline-primary">{t('loginPage.submitButton')}</Button>
           </Form>
         </div>

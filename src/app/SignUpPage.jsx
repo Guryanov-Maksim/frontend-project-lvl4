@@ -96,7 +96,7 @@ const SignUpPage = () => {
             <div className="col-sm-4">
               <Form onSubmit={handleSubmit}>
                 <h1 className="text-center mb-4">{t('signupPage.title')}</h1>
-                <Form.Floating className="mb-3 form-group">
+                <Form.Group className="mb-3 form-group">
                   <Form.Control
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -115,8 +115,8 @@ const SignUpPage = () => {
                       ? t(`errors.${toString(errors.username)}`)
                       : (registrationFailed && t('errors.registrationFailedEmtyMessage'))}
                   </FormControl.Feedback>
-                </Form.Floating>
-                <Form.Floating className="mb-3">
+                </Form.Group>
+                <Form.Group className="mb-3">
                   <Form.Control
                     type="password"
                     onChange={handleChange}
@@ -135,8 +135,8 @@ const SignUpPage = () => {
                       ? t(`errors.${toString(errors.password)}`)
                       : (registrationFailed && t('errors.registrationFailedEmtyMessage'))}
                   </Form.Control.Feedback>
-                </Form.Floating>
-                <Form.Floating className="mb-3">
+                </Form.Group>
+                <Form.Group className="mb-3">
                   <Form.Control
                     type="password"
                     onChange={handleChange}
@@ -155,7 +155,7 @@ const SignUpPage = () => {
                       ? t('errors.registrationFailed')
                       : t(`errors.${errors.confirmation}`)}
                   </Form.Control.Feedback>
-                </Form.Floating>
+                </Form.Group>
                 <Button type="submit" onClick={resetRefistrationFail} disabled={isSubmitting} variant="outline-primary">{t('signupPage.submitButton')}</Button>
               </Form>
             </div>

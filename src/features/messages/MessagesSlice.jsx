@@ -19,7 +19,7 @@ const messagesSlice = createSlice({
       .addCase(channelRemoved, (state, { payload: { id } }) => (
         state.filter((message) => message.channelId !== id)
       ))
-      .addDefaultCase((state, action) => {});
+      .addDefaultCase(() => {});
   },
 });
 

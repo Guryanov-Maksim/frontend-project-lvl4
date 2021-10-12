@@ -30,6 +30,7 @@ export default {
       submitButton: 'Зарегистрироваться',
     },
     channels: {
+      header: 'Каналы',
       removeButton: 'Удалить',
       renameButton: 'Переименовать',
       addButton: '+',

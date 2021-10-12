@@ -54,5 +54,8 @@ export default {
       submitButton: 'Отправить',
       cancelButton: 'Отменить',
     },
+    key_one: '{{count}} сообщение',
+    key_few: '{{count}} сообщения',
+    key_many: '{{count}} сообщений',
   },
 };

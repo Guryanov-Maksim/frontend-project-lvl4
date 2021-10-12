@@ -6,7 +6,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 import routes from '../routes.js';
 import { channelsFetched } from '../features/channels/ChannelsSlice.jsx';
 import { messagesFetched } from '../features/messages/MessagesSlice.jsx';
-import MassageList from '../features/messages/MessagesList.jsx';
+import MessagesBox from '../features/messages/MessagesBox.jsx';
 import ChannelsList from '../features/channels/ChannelsList.jsx';
 import Modal from '../features/modals/Modal.jsx';
 import WsProvider from '../api/websocketApi.jsx';

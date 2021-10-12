@@ -28,8 +28,8 @@ const WsProvider = ({ children, socket = io() }) => {
 
   useEffect(() => {
     if (socket !== null) {
-      socket.on('newMessage', (data) => {
-        dispatch(messageFetched(data));
+      socket.on('newMessage', (message) => {
+        dispatch(messageFetched(message));
       });
 
       socket.on('newChannel', (data) => {
@@ -49,15 +49,17 @@ const WsProvider = ({ children, socket = io() }) => {
   }, [socket]);
 
   const sendMessage = (message, callbacks) => {
-    const { setMessageStatus, actions } = callbacks;
-    setMessageStatus('sending');
-    socket.volatile.emit('newMessage', message, withTimeout((response) => {
-      setMessageStatus('filling');
-      actions.resetForm();
-    }, () => {
-      setMessageStatus('failed');
-      console.log('timeout!');
-    }, 1000));
+    socket.volatile.emit('newMessage', message, withTimeout(
+      ({ status }) => {
+        if (status === 'ok') {
+          callbacks.onSuccess.forEach((cb) => cb());
+        } else {
+          callbacks.onFail.forEach((cb) => cb());
+        }
+      },
+      () => callbacks.onFail.forEach((cb) => cb()),
+      timeout,
+    ));
   };
 
   const addChannel = (channel, callbacks) => {

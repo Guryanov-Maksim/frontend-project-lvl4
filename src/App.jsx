@@ -8,7 +8,7 @@ import {
 
 import LoginPage from './app/LoginPage.jsx';
 import MainPage from './app/MainPage.jsx';
-import SignUpPage from './app/SignUpPage.jsx';
+import SignUpPage from './app/SignupPage.jsx';
 import authContext from './contexts/index.jsx';
 import useAuth from './hooks/index.jsx';
 

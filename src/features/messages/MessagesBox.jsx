@@ -14,9 +14,11 @@ const Message = ({ message }) => (
 );
 
 const Messages = ({ messages }) => (
-  messages.map((message) => (
-    <Message key={message.id} message={message} />
-  ))
+  <div className="overflow-auto px-5">
+    {messages.map((message) => (
+      <Message key={message.id} message={message} />
+    ))}
+  </div>
 );
 
 const MessagesBox = () => {

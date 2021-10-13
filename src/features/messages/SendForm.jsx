@@ -1,6 +1,11 @@
 import React, { useContext, useEffect, useRef } from 'react';
 import { useFormik } from 'formik';
-import { Form, Button } from 'react-bootstrap';
+import {
+  Form,
+  Button,
+  Row,
+  Col,
+} from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
@@ -43,23 +48,27 @@ const SendForm = () => {
     },
   });
 
-  console.log(formik);
-
   return (
     <div className="mt-auto px-5 py-3">
       <Form onSubmit={formik.handleSubmit}>
-        <Form.Control
-          type="text"
-          name="text"
-          value={formik.values.text}
-          onChange={formik.handleChange}
-          data-testid="new-message"
-          placeholder={t('messages.placeholder')}
-          ref={inputRef}
-        />
-        <Button className="btn btn-group-vertical" disabled={formik.values.text === '' || formik.isSubmitting} type="submit">
-          {t('messages.submitButton')}
-        </Button>
+        <Row>
+          <Form.Group as={Col} sm={8}>
+            <Form.Control
+              type="text"
+              name="text"
+              value={formik.values.text}
+              onChange={formik.handleChange}
+              data-testid="new-message"
+              placeholder={t('messages.placeholder')}
+              ref={inputRef}
+            />
+          </Form.Group>
+          <Col sm>
+            <Button className="btn btn-group-vertical" disabled={formik.values.text === '' || formik.isSubmitting} type="submit">
+              {t('messages.submitButton')}
+            </Button>
+          </Col>
+        </Row>
       </Form>
     </div>
   );

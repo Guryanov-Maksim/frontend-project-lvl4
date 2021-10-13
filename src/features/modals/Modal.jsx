@@ -26,12 +26,6 @@ const Modal = () => {
   const modalInfo = useSelector(selectModal);
   const hideModal = () => dispatch(modalToggled({ isOpen: false, type: null, extra: null }));
 
-  // const [modalInfo, setModalInfo] = useState({ type: null, item: null });
-  // const [items, setItems] = useState([]);
-  // const showModal = (type, item = null) => setModalInfo({ type, item });
-  // const showModalHandler = () => showModal('adding');
-  // const [channelStatus, setChannelStatus] = useState('filling');
-
   return (
     renderModal({ modalInfo, hideModal })
   );

@@ -7,10 +7,9 @@ import routes from '../routes.js';
 import { channelsFetched } from '../features/channels/ChannelsSlice.jsx';
 import { messagesFetched } from '../features/messages/MessagesSlice.jsx';
 import MessagesBox from '../features/messages/MessagesBox.jsx';
-import ChannelsList from '../features/channels/ChannelsList.jsx';
+import ChannelsBox from '../features/channels/ChannelsBox.jsx';
 import Modal from '../features/modals/Modal.jsx';
-import WsProvider from '../api/websocketApi.jsx';
-import Navigation from './Navigation.jsx';
+import Navigation from '../components/Navigation.jsx';
 
 const getAuthHeader = () => {
   const userId = JSON.parse(localStorage.getItem('userId'));
@@ -36,22 +35,20 @@ const MainPage = () => {
   }, []);
 
   return (
-    <>
+    <div className="d-flex flex-column h-100">
       <Navigation />
-      {/* <WsProvider> */}
       <Container className="h-100 my-4 overflow-hidden rounded shadow">
         <Row className="h-100 bg-white flex-md-row">
-          <Col className="col-4 col-md-2 border-end pt-5 px-0 bg-light">
-            <ChannelsList />
+          <Col className="col-4 border-end pt-5 px-0 bg-light" md={2}>
+            <ChannelsBox />
           </Col>
           <Col className="p-0 h-100">
-            <MassageList />
+            <MessagesBox />
           </Col>
         </Row>
+        <Modal />
       </Container>
-      <Modal />
-      {/* </WsProvider> */}
-    </>
+    </div>
   );
 };
 

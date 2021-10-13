@@ -20,9 +20,11 @@ const Navigation = () => {
   const [t] = useTranslation();
 
   return (
-    <Navbar bg="light" expand="lg">
+    <Navbar className="shadow-sm" bg="light" expand="lg">
       <Container>
-        <NavLink to="/">{t('mainNav.mainPageLink') }</NavLink>
+        <Navbar.Brand as={NavLink} to="/">{t('mainNav.mainPageLink') }</Navbar.Brand>
+        {/* <Nav.Link to="/">Home</Nav.Link> */}
+        {/* <NavLink to="/">{t('mainNav.mainPageLink') }</NavLink> */}
         <AuthButton />
       </Container>
     </Navbar>

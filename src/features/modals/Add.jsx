@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useContext } from 'react';
 import { Formik } from 'formik';
-import { Modal, Form } from 'react-bootstrap';
+import { Modal, Form, Button } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
@@ -76,8 +76,10 @@ const Add = (props) => {
                   {errors.body}
                 </Form.Control.Feedback>
               </Form.Group>
-              <button disabled={isSubmitting} onClick={onHide} type="button">{t('addModal.cancelButton')}</button>
-              <button disabled={isSubmitting} type="submit">{t('addModal.submitButton')}</button>
+              <div className="d-flex justify-content-end">
+                <Button className="mr-2" disabled={isSubmitting} variant="secondary" onClick={onHide} type="button">{t('addModal.cancelButton')}</Button>
+                <Button disabled={isSubmitting} type="submit">{t('addModal.submitButton')}</Button>
+              </div>
             </Form>
           )}
         </Formik>

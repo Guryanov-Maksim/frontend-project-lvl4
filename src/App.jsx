@@ -55,19 +55,17 @@ const MainRoute = ({ children, path }) => {
 const App = () => (
   <AuthProvider>
     <Router>
-      <div className="d-flex flex-column h-100">
-        <Switch>
-          <Route exact path="/login">
-            <LoginPage />
-          </Route>
-          <Route exact path="/signup">
-            <SignUpPage />
-          </Route>
-          <MainRoute path="/">
-            <MainPage />
-          </MainRoute>
-        </Switch>
-      </div>
+      <Switch>
+        <Route exact path="/login">
+          <LoginPage />
+        </Route>
+        <Route exact path="/signup">
+          <SignUpPage />
+        </Route>
+        <MainRoute path="/">
+          <MainPage />
+        </MainRoute>
+      </Switch>
     </Router>
   </AuthProvider>
 );

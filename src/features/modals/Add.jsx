@@ -1,14 +1,13 @@
 import React, { useEffect, useRef, useContext } from 'react';
 import { Formik } from 'formik';
 import { Modal, Form, Button } from 'react-bootstrap';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
 import { wsContext } from '../../contexts/index.jsx';
-import { selectAllChannels, currentChannelIdChanged } from '../channels/ChannelsSlice.jsx';
+import { selectAllChannels } from '../channels/ChannelsSlice.jsx';
 
 const Add = (props) => {
-  const dispatch = useDispatch();
   const channels = useSelector(selectAllChannels);
   const ws = useContext(wsContext);
   const { onHide, modalInfo } = props;
@@ -43,13 +42,14 @@ const Add = (props) => {
           }}
           onSubmit={(values, actions) => {
             const newChannel = { name: values.body, removable: true };
-            const addedChannel = channels.find((channel) => channel.name === newChannel.name);
-            if (addedChannel) {
-              dispatch(currentChannelIdChanged({ id: addedChannel.id }));
-              onHide();
-              return;
-            }
-            ws.addChannel(newChannel, { inputRef, onHide, actions });
+            const onSuccessCallbacks = [
+              () => onHide(),
+            ];
+            const onFailCallbacks = [
+              () => inputRef.current.focus(),
+              () => actions.setSubmitting(false),
+            ];
+            ws.addChannel(newChannel, { onSuccessCallbacks, onFailCallbacks });
           }}
         >
           {({

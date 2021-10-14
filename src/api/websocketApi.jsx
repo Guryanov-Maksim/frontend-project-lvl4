@@ -4,28 +4,47 @@ import { io } from 'socket.io-client';
 
 import { wsContext } from '../contexts/index.jsx';
 import { messageFetched } from '../features/messages/MessagesSlice.jsx';
-import { channelFetched, channelRemoved, currentChannelIdChanged, channelRenamed } from '../features/channels/ChannelsSlice.jsx';
+import {
+  channelFetched,
+  channelRemoved,
+  currentChannelIdChanged,
+  channelRenamed,
+} from '../features/channels/ChannelsSlice.jsx';
 
-const withTimeout = (onSuccess, onTimeout, timeout) => {
-  let called = false;
+const withAcknowledge = ({ status }, { onSuccessCallbacks, onFailCallbacks }) => {
+  if (status === 'ok') {
+    onSuccessCallbacks.forEach((cb) => cb());
+  } else {
+    onFailCallbacks.forEach((cb) => cb());
+  }
+};
+
+const withTimeout = (callbacks = { onSuccessCallbacks: [], onFailCallbacks: [] }, timeout) => {
+  let called = false; // eslint-disable-line
+  const defaultResponse = {};
+  const { onSuccessCallbacks, onFailCallbacks } = callbacks;
 
   const timer = setTimeout(() => {
     if (called) return;
     called = true;
-    onTimeout();
+    onFailCallbacks.forEach((cb) => cb());
   }, timeout);
 
-  return (...args) => {
+  return (response = defaultResponse) => {
     if (called) return;
     called = true;
     clearTimeout(timer);
-    onSuccess.apply(this, args);
+    if (response.status) {
+      withAcknowledge(response, callbacks);
+    } else {
+      onSuccessCallbacks.forEach((cb) => cb());
+    }
   };
 };
 
 const WsProvider = ({ children, socket = io() }) => {
   const dispatch = useDispatch();
-  const timeout = 1000;
+  const timeout = 3000;
 
   useEffect(() => {
     if (socket !== null) {
@@ -33,66 +52,35 @@ const WsProvider = ({ children, socket = io() }) => {
         dispatch(messageFetched(message));
       });
 
-      socket.on('newChannel', (data) => {
-        console.log(data);
-        dispatch(channelFetched({ channel: data }));
-        dispatch(currentChannelIdChanged({ id: data.id }));
+      socket.on('newChannel', (channel) => {
+        dispatch(channelFetched({ channel }));
+        dispatch(currentChannelIdChanged({ id: channel.id }));
       });
 
       socket.on('removeChannel', ({ id }) => {
         dispatch(channelRemoved({ id }));
       });
 
-      socket.on('renameChannel', (channel) => {
-        dispatch(channelRenamed({ renamedChannel: channel }));
+      socket.on('renameChannel', (renamedChannel) => {
+        dispatch(channelRenamed({ renamedChannel }));
       });
     }
   }, [socket]);
 
   const sendMessage = (message, callbacks) => {
-    socket.volatile.emit('newMessage', message, withTimeout(
-      ({ status }) => {
-        if (status === 'ok') {
-          callbacks.onSuccess.forEach((cb) => cb());
-        } else {
-          callbacks.onFail.forEach((cb) => cb());
-        }
-      },
-      () => callbacks.onFail.forEach((cb) => cb()),
-      timeout,
-    ));
+    socket.volatile.emit('newMessage', message, withTimeout(callbacks, timeout));
   };
 
   const addChannel = (channel, callbacks) => {
-    const { inputRef, onHide, actions } = callbacks;
-    socket.volatile.emit('newChannel', channel, withTimeout((response) => {
-      onHide();
-    }, () => {
-      actions.setSubmitting(false);
-      inputRef.current.focus();
-      console.log('timeout!');
-    }, 1000));
+    socket.volatile.emit('newChannel', channel, withTimeout(callbacks, timeout));
   };
 
   const removeChannel = (id, callbacks) => {
-    const { onHide, defautlChannelId } = callbacks;
-    socket.volatile.emit('removeChannel', { id }, withTimeout((response) => {
-      dispatch(currentChannelIdChanged({ id: defautlChannelId }));
-      onHide();
-    }, () => {
-      console.log('timeout!');
-    }, 1000));
+    socket.volatile.emit('removeChannel', { id }, withTimeout(callbacks, timeout));
   };
 
-  const renameChannel = ({ id, newName }, callbacks) => {
-    const { inputRef, onHide, actions } = callbacks;
-    socket.volatile.emit('renameChannel', { id, name: newName }, withTimeout((response) => {
-      onHide();
-    }, () => {
-      inputRef.current.focus();
-      actions.setSubmitting(false);
-      console.log('renameChannel timeout!');
-    }, 2000));
+  const renameChannel = (updatedChannel, callbacks) => {
+    socket.volatile.emit('renameChannel', updatedChannel, withTimeout(callbacks, timeout));
   };
 
   const ws = {

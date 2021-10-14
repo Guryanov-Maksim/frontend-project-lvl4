@@ -41,10 +41,15 @@ const Rename = (props) => {
             return errors;
           }}
           onSubmit={(values, actions) => {
-            ws.renameChannel(
-              { id: modalInfo.extra.id, newName: values.body }, { inputRef, onHide, actions },
-            );
-            // actions.setSubmitting(false); // возможность самого формика
+            const onSuccessCallbacks = [
+              () => onHide(),
+            ];
+            const onFailCallbacks = [
+              () => inputRef.current.focus(),
+              () => actions.setSubmitting(false),
+            ];
+            const updatedChannel = { id: modalInfo.extra.id, name: values.body };
+            ws.renameChannel(updatedChannel, { onSuccessCallbacks, onFailCallbacks });
           }}
         >
           {({

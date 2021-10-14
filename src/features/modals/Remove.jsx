@@ -1,13 +1,14 @@
 import React, { useContext } from 'react';
 import { Formik, Form } from 'formik';
 import { Modal, Button } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
 import { wsContext } from '../../contexts/index.jsx';
-import { selectAllChannels } from '../channels/ChannelsSlice.jsx';
+import { selectAllChannels, currentChannelIdChanged } from '../channels/ChannelsSlice.jsx';
 
 const Remove = (props) => {
+  const dispatch = useDispatch();
   const channels = useSelector(selectAllChannels);
   const ws = useContext(wsContext);
   const { onHide, modalInfo } = props;
@@ -28,7 +29,11 @@ const Remove = (props) => {
             body: '',
           }}
           onSubmit={() => {
-            ws.removeChannel(modalInfo.extra, { onHide, defautlChannelId });
+            const onSuccessCallbacks = [
+              () => onHide(),
+              () => dispatch(currentChannelIdChanged({ id: defautlChannelId })),
+            ];
+            ws.removeChannel(modalInfo.extra, { onSuccessCallbacks });
           }}
         >
           {() => (

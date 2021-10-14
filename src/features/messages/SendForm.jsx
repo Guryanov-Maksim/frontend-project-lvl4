@@ -34,17 +34,15 @@ const SendForm = () => {
         channelId: currentChannelId,
         username,
       };
-      const callbacks = {
-        onSuccess: [
-          () => actions.resetForm(),
-          () => inputRef.current.focus(),
-        ],
-        onFail: [
-          () => actions.setSubmitting(false),
-          () => inputRef.current.focus(),
-        ],
-      };
-      ws.sendMessage(message, callbacks);
+      const onSuccessCallbacks = [
+        () => actions.resetForm(),
+        () => inputRef.current.focus(),
+      ];
+      const onFailCallbacks = [
+        () => actions.setSubmitting(false),
+        () => inputRef.current.focus(),
+      ];
+      ws.sendMessage(message, { onSuccessCallbacks, onFailCallbacks });
     },
   });
 

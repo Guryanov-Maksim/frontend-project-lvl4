@@ -33,7 +33,7 @@ export default async (socketClient) => {
     .use(initReactI18next)
     .init({
       lng: defaultLanguage,
-      debug: true,
+      debug: process.env.NODE_ENV === 'development',
       resources: {
         ru,
       },

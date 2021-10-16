@@ -9,6 +9,7 @@ import {
 import LoginPage from './app/LoginPage.jsx';
 import MainPage from './app/MainPage.jsx';
 import SignUpPage from './app/SignupPage.jsx';
+import Page404 from './app/Page404.jsx';
 import authContext from './contexts/index.jsx';
 import useAuth from './hooks/index.jsx';
 
@@ -62,9 +63,12 @@ const App = () => (
         <Route exact path="/signup">
           <SignUpPage />
         </Route>
-        <MainRoute path="/">
+        <MainRoute exact path="/">
           <MainPage />
         </MainRoute>
+        <Route exact path="*">
+          <Page404 />
+        </Route>
       </Switch>
     </Router>
   </AuthProvider>

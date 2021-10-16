@@ -6,7 +6,7 @@ import { initReactI18next, I18nextProvider } from 'react-i18next';
 // import * as yup from 'yup';
 
 import WsProvider from './api/websocketApi.jsx';
-import store from './app/store.js';
+import store from './store.js';
 import App from './App.jsx';
 
 // import { ru, errors } from './locales/index.js';

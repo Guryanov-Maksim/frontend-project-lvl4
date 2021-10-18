@@ -17,7 +17,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 const rollbarConfig = {
-  accessToken: 'bc37e9074f544386aa0bf55a590eda16',
+  accessToken: process.env.ROLLBAR_ACCESS_TOKEN,
   environment: 'production',
   enabled: process.env.NODE_ENV === 'production',
 };

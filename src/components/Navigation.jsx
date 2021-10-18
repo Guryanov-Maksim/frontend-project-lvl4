@@ -23,8 +23,6 @@ const Navigation = () => {
     <Navbar className="shadow-sm" bg="light" expand="lg">
       <Container>
         <Navbar.Brand as={NavLink} to="/">{t('mainNav.mainPageLink') }</Navbar.Brand>
-        {/* <Nav.Link to="/">Home</Nav.Link> */}
-        {/* <NavLink to="/">{t('mainNav.mainPageLink') }</NavLink> */}
         <AuthButton />
       </Container>
     </Navbar>

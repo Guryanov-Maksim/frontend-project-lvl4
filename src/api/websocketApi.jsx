@@ -1,4 +1,3 @@
-// import React, { useEffect } from 'react';
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { io } from 'socket.io-client';
@@ -47,7 +46,6 @@ const WsProvider = ({ children, socket = io() }) => {
   const dispatch = useDispatch();
   const timeout = 3000;
 
-  // useEffect(() => {
   socket.on('newMessage', (message) => {
     dispatch(messageFetched(message));
   });
@@ -64,7 +62,6 @@ const WsProvider = ({ children, socket = io() }) => {
   socket.on('renameChannel', (renamedChannel) => {
     dispatch(channelRenamed({ renamedChannel }));
   });
-  // }, [socket]);
 
   const sendMessage = (message, callbacks) => {
     socket.volatile.emit('newMessage', message, withTimeout(callbacks, timeout));

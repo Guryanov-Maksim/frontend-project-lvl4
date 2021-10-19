@@ -3,14 +3,13 @@ import { Provider } from 'react-redux';
 import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
 import i18n from 'i18next';
 import { initReactI18next, I18nextProvider } from 'react-i18next';
-// import * as yup from 'yup';
+import * as yup from 'yup';
 
 import WsProvider from './api/websocketApi.jsx';
 import store from './store.js';
 import App from './App.jsx';
 
-// import { ru, errors } from './locales/index.js';
-import { ru } from './locales/index.js';
+import { ru, errors } from './locales/index.js';
 
 if (process.env.NODE_ENV !== 'production') {
   localStorage.debug = 'chat:*';
@@ -23,7 +22,7 @@ const rollbarConfig = {
 };
 
 export default async (socketClient) => {
-  // yup.setLocale(errors);
+  yup.setLocale(errors);
 
   const defaultLanguage = 'ru';
 

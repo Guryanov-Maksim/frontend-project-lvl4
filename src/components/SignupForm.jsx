@@ -8,28 +8,6 @@ import { useTranslation } from 'react-i18next';
 import routes from '../routes.js';
 import useAuth from '../hooks/index.jsx';
 
-import { errors } from '../locales/index.js';
-
-yup.setLocale(errors);
-
-const schema = yup.object().shape({
-  username: yup
-    .string()
-    .trim()
-    .required()
-    .min(3)
-    .max(20),
-  password: yup
-    .string()
-    .trim()
-    .required()
-    .min(6),
-  confirmation: yup
-    .string()
-    .oneOf([yup.ref('password'), null])
-    .required(),
-});
-
 const toString = (err) => (
   typeof err === 'string'
     ? err
@@ -42,6 +20,24 @@ const SignupForm = () => {
   const auth = useAuth();
   const history = useHistory();
   const { t } = useTranslation();
+
+  const schema = yup.object().shape({
+    username: yup
+      .string()
+      .trim()
+      .required()
+      .min(3)
+      .max(20),
+    password: yup
+      .string()
+      .trim()
+      .required()
+      .min(6),
+    confirmation: yup
+      .string()
+      .oneOf([yup.ref('password'), null])
+      .required(),
+  });
 
   useEffect(() => {
     inputRef.current.focus();

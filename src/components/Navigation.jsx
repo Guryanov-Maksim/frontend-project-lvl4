@@ -7,7 +7,7 @@ import useAuth from '../hooks/index.jsx';
 
 const AuthButton = () => {
   const auth = useAuth();
-  const [t] = useTranslation();
+  const { t } = useTranslation();
 
   return (
     auth.loggedIn
@@ -17,7 +17,7 @@ const AuthButton = () => {
 };
 
 const Navigation = () => {
-  const [t] = useTranslation();
+  const { t } = useTranslation();
 
   return (
     <Navbar className="shadow-sm" bg="light" expand="lg">

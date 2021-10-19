@@ -11,7 +11,7 @@ const Rename = (props) => {
   const channels = useSelector(selectAllChannels);
   const ws = useContext(wsContext);
   const { onHide, modalInfo } = props;
-  const [t] = useTranslation();
+  const { t } = useTranslation();
 
   const inputRef = useRef();
 

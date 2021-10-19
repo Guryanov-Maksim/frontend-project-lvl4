@@ -14,7 +14,7 @@ const Remove = (props) => {
   const { onHide, modalInfo } = props;
   const [defaultChannel] = channels;
   const defautlChannelId = defaultChannel.id;
-  const [t] = useTranslation();
+  const { t } = useTranslation();
 
   return (
     <Modal show={modalInfo.isOpen} onHide={onHide}>

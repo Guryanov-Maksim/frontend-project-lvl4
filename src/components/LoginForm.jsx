@@ -14,7 +14,7 @@ const LoginForm = () => {
   const auth = useAuth();
   const location = useLocation();
   const history = useHistory();
-  const [t] = useTranslation();
+  const { t } = useTranslation();
 
   useEffect(() => {
     inputRef.current.focus();

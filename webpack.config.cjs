@@ -1,7 +1,7 @@
 // @ts-check
 
 const path = require('path');
-const webpack = require('webpack');
+const { EnvironmentPlugin } = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const mode = process.env.NODE_ENV || 'development';
@@ -9,7 +9,6 @@ const mode = process.env.NODE_ENV || 'development';
 module.exports = {
   mode,
   devtool: 'inline-source-map',
-  // entry: './src/index.jsx',
   resolve: {
     extensions: ['.js', '.jsx'],
   },
@@ -27,7 +26,7 @@ module.exports = {
   },
   plugins: [
     new MiniCssExtractPlugin(),
-    new webpack.EnvironmentPlugin({
+    new EnvironmentPlugin({
       ROLLBAR_TOKEN: '',
     }),
   ],

@@ -6,7 +6,7 @@ import { Form, Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 
 import routes from '../routes.js';
-import useAuth from '../hooks/index.jsx';
+import { useAuth } from '../hooks/index.jsx';
 
 const LoginForm = () => {
   const [authFailed, setAuthFailed] = useState(false);

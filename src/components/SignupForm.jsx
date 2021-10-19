@@ -6,7 +6,7 @@ import * as yup from 'yup';
 import { Form, Button, FormControl } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import routes from '../routes.js';
-import useAuth from '../hooks/index.jsx';
+import { useAuth } from '../hooks/index.jsx';
 
 const toString = (err) => (
   typeof err === 'string'

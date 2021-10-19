@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useFormik } from 'formik';
 import {
   Form,
@@ -10,10 +10,10 @@ import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
 import { selectCurrentChannelId } from '../channels/ChannelsSlice.jsx';
-import { wsContext } from '../../contexts/index.jsx';
+import { useWebsocket } from '../../hooks/index.jsx';
 
 const SendForm = () => {
-  const ws = useContext(wsContext);
+  const ws = useWebsocket();
   const currentChannelId = useSelector(selectCurrentChannelId);
   const { t } = useTranslation();
   const inputRef = useRef();

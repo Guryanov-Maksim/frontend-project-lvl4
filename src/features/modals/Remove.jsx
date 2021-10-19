@@ -1,16 +1,16 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Formik, Form } from 'formik';
 import { Modal, Button } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
-import { wsContext } from '../../contexts/index.jsx';
+import { useWebsocket } from '../../hooks/index.jsx';
 import { selectAllChannels, currentChannelIdChanged } from '../channels/ChannelsSlice.jsx';
 
 const Remove = (props) => {
   const dispatch = useDispatch();
   const channels = useSelector(selectAllChannels);
-  const ws = useContext(wsContext);
+  const ws = useWebsocket();
   const { onHide, modalInfo } = props;
   const [defaultChannel] = channels;
   const defautlChannelId = defaultChannel.id;

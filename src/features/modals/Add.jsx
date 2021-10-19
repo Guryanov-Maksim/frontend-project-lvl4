@@ -1,15 +1,15 @@
-import React, { useEffect, useRef, useContext } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Formik } from 'formik';
 import { Modal, Form, Button } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
-import { wsContext } from '../../contexts/index.jsx';
+import { useWebsocket } from '../../hooks/index.jsx';
 import { selectAllChannels } from '../channels/ChannelsSlice.jsx';
 
 const Add = (props) => {
   const channels = useSelector(selectAllChannels);
-  const ws = useContext(wsContext);
+  const ws = useWebsocket();
   const { onHide, modalInfo } = props;
   const { t } = useTranslation();
 

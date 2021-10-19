@@ -10,8 +10,8 @@ import LoginPage from './pages/LoginPage.jsx';
 import MainPage from './pages/MainPage.jsx';
 import SignUpPage from './pages/SignupPage.jsx';
 import Page404 from './pages/Page404.jsx';
-import authContext from './contexts/index.jsx';
-import useAuth from './hooks/index.jsx';
+import { authContext } from './contexts/index.jsx';
+import { useAuth } from './hooks/index.jsx';
 
 const isAuthUser = () => {
   const userId = JSON.parse(localStorage.getItem('userId'));

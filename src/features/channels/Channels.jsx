@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
   Nav,
   Button,
-  DropdownButton,
   Dropdown,
   ButtonGroup,
 } from 'react-bootstrap';
@@ -40,22 +39,25 @@ const Channel = ({ channel }) => {
 
   return (
     <Nav.Item as="li" className="w-100">
-      <ButtonGroup className="d-flex dropdown">
+      <Dropdown as={ButtonGroup} className="d-flex">
         <Button variant="" className={classes} onClick={onClickHandler(channel.id)}>
           <span className="me-1">#</span>
           {channel.name}
         </Button>
         {channel.removable && (
-          <DropdownButton className={dropdownClasses} variant="" as={ButtonGroup} title="" id="bg-nested-dropdown">
-            <Dropdown.Item eventKey="1" onClick={showModalHandler(channel.id)}>
-              {t('channels.removeButton')}
-            </Dropdown.Item>
-            <Dropdown.Item eventKey="2" onClick={showRenameModalHandler(channel)}>
-              {t('channels.renameButton')}
-            </Dropdown.Item>
-          </DropdownButton>
+          <>
+            <Dropdown.Toggle split variant="" className={dropdownClasses} id="dropdown-split-basic" />
+            <Dropdown.Menu>
+              <Dropdown.Item href="#" eventKey="1" onClick={showModalHandler(channel.id)} active={false}>
+                {t('channels.removeButton')}
+              </Dropdown.Item>
+              <Dropdown.Item href="#" eventKey="2" onClick={showRenameModalHandler(channel)} active={false}>
+                {t('channels.renameButton')}
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </>
         )}
-      </ButtonGroup>
+      </Dropdown>
     </Nav.Item>
   );
 };

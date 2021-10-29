@@ -15,7 +15,6 @@ import { useAuth } from './hooks/index.jsx';
 
 const isAuthUser = () => {
   const userId = JSON.parse(localStorage.getItem('userId'));
-  console.log(userId);
 
   if (userId && userId.token) {
     return true;

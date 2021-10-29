@@ -1,8 +1,5 @@
-import React from 'react';
-import { useDispatch } from 'react-redux';
 import { io } from 'socket.io-client';
 
-import { wsContext } from '../contexts/index.jsx';
 import { messageFetched } from '../features/messages/MessagesSlice.jsx';
 import {
   channelFetched,
@@ -42,25 +39,25 @@ const withTimeout = (callbacks = { onSuccessCallbacks: [], onFailCallbacks: [] }
   };
 };
 
-const WsProvider = ({ children, socket = io() }) => {
-  const dispatch = useDispatch();
+const createWebsocket = (store, socketClient = io) => {
+  const socket = socketClient();
   const timeout = 3000;
 
   socket.on('newMessage', (message) => {
-    dispatch(messageFetched(message));
+    store.dispatch(messageFetched(message));
   });
 
   socket.on('newChannel', (channel) => {
-    dispatch(channelFetched({ channel }));
-    dispatch(currentChannelIdChanged({ id: channel.id }));
+    store.dispatch(channelFetched({ channel }));
+    store.dispatch(currentChannelIdChanged({ id: channel.id }));
   });
 
   socket.on('removeChannel', ({ id }) => {
-    dispatch(channelRemoved({ id }));
+    store.dispatch(channelRemoved({ id }));
   });
 
   socket.on('renameChannel', (renamedChannel) => {
-    dispatch(channelRenamed({ renamedChannel }));
+    store.dispatch(channelRenamed({ renamedChannel }));
   });
 
   const sendMessage = (message, callbacks) => {
@@ -79,18 +76,12 @@ const WsProvider = ({ children, socket = io() }) => {
     socket.volatile.emit('renameChannel', updatedChannel, withTimeout(callbacks, timeout));
   };
 
-  const ws = {
+  return {
     sendMessage,
     addChannel,
     removeChannel,
     renameChannel,
   };
-
-  return (
-    <wsContext.Provider value={ws}>
-      {children}
-    </wsContext.Provider>
-  );
 };
 
-export default WsProvider;
+export default createWebsocket;

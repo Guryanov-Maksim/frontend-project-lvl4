@@ -5,9 +5,10 @@ import i18n from 'i18next';
 import { initReactI18next, I18nextProvider } from 'react-i18next';
 import * as yup from 'yup';
 
-import WsProvider from './api/websocketApi.jsx';
+import createWebsocket from './api/websocketApi.jsx';
 import store from './store.js';
 import App from './App.jsx';
+import { wsContext } from './contexts/index.jsx';
 
 import { ru, errors } from './locales/index.js';
 
@@ -30,6 +31,8 @@ export default async (socketClient) => {
 
   const i18nInstance = i18n.createInstance();
 
+  const websocket = createWebsocket(store, socketClient);
+
   await i18nInstance
     .use(initReactI18next)
     .init({
@@ -45,9 +48,9 @@ export default async (socketClient) => {
       <Provider store={store}>
         <RollbarProvider config={rollbarConfig}>
           <ErrorBoundary>
-            <WsProvider socket={socketClient}>
+            <wsContext.Provider value={websocket}>
               <App />
-            </WsProvider>
+            </wsContext.Provider>
           </ErrorBoundary>
         </RollbarProvider>
       </Provider>

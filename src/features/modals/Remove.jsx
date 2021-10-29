@@ -33,7 +33,8 @@ const Remove = (props) => {
               () => onHide(),
               () => dispatch(currentChannelIdChanged({ id: defautlChannelId })),
             ];
-            ws.removeChannel(modalInfo.extra, { onSuccessCallbacks });
+            const data = { id: modalInfo.extra };
+            ws.removeChannel(data, { onSuccessCallbacks });
           }}
         >
           {() => (

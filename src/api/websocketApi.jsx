@@ -46,8 +46,7 @@ const withTimeout = (callbacks = { onSuccessCallbacks: [], onFailCallbacks: [] }
   };
 };
 
-const createWebsocket = (store, socketClient = io) => {
-  const socket = socketClient();
+const createWebsocket = (store, socket = io()) => {
   const timeout = 3000;
 
   const manageData = (operation) => (data, callbacks) => {

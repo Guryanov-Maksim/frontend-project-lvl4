@@ -4,12 +4,12 @@ import { Modal, Form, Button } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
-import { useWebsocket } from '../../hooks/index.jsx';
+import { useApi } from '../../hooks/index.jsx';
 import { selectAllChannels } from '../channels/ChannelsSlice.jsx';
 
 const Add = (props) => {
   const channels = useSelector(selectAllChannels);
-  const ws = useWebsocket();
+  const api = useApi();
   const { onHide, modalInfo } = props;
   const { t } = useTranslation();
 
@@ -49,7 +49,7 @@ const Add = (props) => {
               () => inputRef.current.focus(),
               () => actions.setSubmitting(false),
             ];
-            ws.addChannel(newChannel, { onSuccessCallbacks, onFailCallbacks });
+            api.addChannel(newChannel, { onSuccessCallbacks, onFailCallbacks });
           }}
         >
           {({

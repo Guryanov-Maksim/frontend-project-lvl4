@@ -4,13 +4,13 @@ import { Modal, Button } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
-import { useWebsocket } from '../../hooks/index.jsx';
+import { useApi } from '../../hooks/index.jsx';
 import { selectAllChannels, currentChannelIdChanged } from '../channels/ChannelsSlice.jsx';
 
 const Remove = (props) => {
   const dispatch = useDispatch();
   const channels = useSelector(selectAllChannels);
-  const ws = useWebsocket();
+  const api = useApi();
   const { onHide, modalInfo } = props;
   const [defaultChannel] = channels;
   const defautlChannelId = defaultChannel.id;
@@ -34,7 +34,7 @@ const Remove = (props) => {
               () => dispatch(currentChannelIdChanged({ id: defautlChannelId })),
             ];
             const data = { id: modalInfo.extra };
-            ws.removeChannel(data, { onSuccessCallbacks });
+            api.removeChannel(data, { onSuccessCallbacks });
           }}
         >
           {() => (

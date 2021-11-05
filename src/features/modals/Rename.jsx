@@ -4,12 +4,12 @@ import { Modal, Form, Button } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
-import { useWebsocket } from '../../hooks/index.jsx';
+import { useApi } from '../../hooks/index.jsx';
 import { selectAllChannels } from '../channels/ChannelsSlice.jsx';
 
 const Rename = (props) => {
   const channels = useSelector(selectAllChannels);
-  const ws = useWebsocket();
+  const api = useApi();
   const { onHide, modalInfo } = props;
   const { t } = useTranslation();
 
@@ -49,7 +49,7 @@ const Rename = (props) => {
               () => actions.setSubmitting(false),
             ];
             const updatedChannel = { id: modalInfo.extra.id, name: values.body };
-            ws.renameChannel(updatedChannel, { onSuccessCallbacks, onFailCallbacks });
+            api.renameChannel(updatedChannel, { onSuccessCallbacks, onFailCallbacks });
           }}
         >
           {({

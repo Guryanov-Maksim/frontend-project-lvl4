@@ -1,8 +1,8 @@
 import { useContext } from 'react';
 
-import { authContext, wsContext } from '../contexts/index.jsx';
+import { authContext, apiContext } from '../contexts/index.jsx';
 
 const useAuth = () => useContext(authContext);
-const useWebsocket = () => useContext(wsContext);
+const useApi = () => useContext(apiContext);
 
-export { useAuth, useWebsocket };
+export { useAuth, useApi };

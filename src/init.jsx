@@ -5,12 +5,14 @@ import i18n from 'i18next';
 import { initReactI18next, I18nextProvider } from 'react-i18next';
 import * as yup from 'yup';
 
-import createWebsocket from './api/websocketApi.jsx';
+import createApi from './api/apiCreator.jsx';
 import store from './store.js';
 import App from './App.jsx';
-import { wsContext } from './contexts/index.jsx';
+import { apiContext } from './contexts/index.jsx';
 
 import { ru, errors } from './locales/index.js';
+
+const defaultLanguage = 'ru';
 
 if (process.env.NODE_ENV !== 'production') {
   localStorage.debug = 'chat:*';
@@ -27,11 +29,9 @@ const rollbarConfig = {
 export default async (socketClient) => {
   yup.setLocale(errors);
 
-  const defaultLanguage = 'ru';
-
   const i18nInstance = i18n.createInstance();
 
-  const websocket = createWebsocket(store, socketClient);
+  const api = createApi(store, socketClient);
 
   await i18nInstance
     .use(initReactI18next)
@@ -48,9 +48,9 @@ export default async (socketClient) => {
       <Provider store={store}>
         <RollbarProvider config={rollbarConfig}>
           <ErrorBoundary>
-            <wsContext.Provider value={websocket}>
+            <apiContext.Provider value={api}>
               <App />
-            </wsContext.Provider>
+            </apiContext.Provider>
           </ErrorBoundary>
         </RollbarProvider>
       </Provider>

@@ -10,10 +10,10 @@ import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
 import { selectCurrentChannelId } from '../channels/ChannelsSlice.jsx';
-import { useWebsocket } from '../../hooks/index.jsx';
+import { useApi } from '../../hooks/index.jsx';
 
 const SendForm = () => {
-  const ws = useWebsocket();
+  const api = useApi();
   const currentChannelId = useSelector(selectCurrentChannelId);
   const { t } = useTranslation();
   const inputRef = useRef();
@@ -42,7 +42,7 @@ const SendForm = () => {
         () => actions.setSubmitting(false),
         () => inputRef.current.focus(),
       ];
-      ws.sendMessage(message, { onSuccessCallbacks, onFailCallbacks });
+      api.sendMessage(message, { onSuccessCallbacks, onFailCallbacks });
     },
   });
 

@@ -1,5 +1,3 @@
-import { io } from 'socket.io-client';
-
 import { messageFetched } from '../features/messages/MessagesSlice.jsx';
 import {
   channelFetched,
@@ -46,7 +44,7 @@ const withTimeout = (callbacks = { onSuccessCallbacks: [], onFailCallbacks: [] }
   };
 };
 
-const createWebsocket = (store, socket = io()) => {
+const createApi = (store, socket) => {
   const timeout = 3000;
 
   const manageData = (operation) => (data, callbacks) => {
@@ -83,4 +81,4 @@ const createWebsocket = (store, socket = io()) => {
   };
 };
 
-export default createWebsocket;
+export default createApi;

@@ -27,7 +27,6 @@ const SendForm = () => {
       text: '',
     },
     onSubmit: (values, actions) => {
-      console.log(actions);
       const { username } = JSON.parse(localStorage.getItem('userId'));
       const message = {
         text: values.text,

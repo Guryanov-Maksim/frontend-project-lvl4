@@ -1,12 +1,10 @@
-import axios from 'axios';
 import React, { useState, useEffect, useRef } from 'react';
 import { useFormik } from 'formik';
 import { useLocation, useHistory } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 
-import routes from '../routes.js';
-import { useAuth } from '../hooks/index.jsx';
+import { useAuth, useApi } from '../hooks/index.js';
 
 const LoginForm = () => {
   const [authFailed, setAuthFailed] = useState(false);
@@ -15,6 +13,7 @@ const LoginForm = () => {
   const location = useLocation();
   const history = useHistory();
   const { t } = useTranslation();
+  const api = useApi();
 
   useEffect(() => {
     inputRef.current.focus();
@@ -25,23 +24,20 @@ const LoginForm = () => {
       username: '',
       password: '',
     },
-    onSubmit: async (values) => {
+    onSubmit: (values) => {
       setAuthFailed(false);
-
-      try {
-        const res = await axios.post(routes.loginPath(), values);
-        localStorage.setItem('userId', JSON.stringify(res.data));
-        auth.logIn();
-        const { from } = location.state;
-        history.replace(from);
-      } catch (err) {
-        if (err.isAxiosError && err.response.status === 401) {
-          setAuthFailed(true);
-          inputRef.current.select();
-          return;
-        }
-        throw err;
-      }
+      const onSuccess = [
+        () => auth.logIn(),
+        () => {
+          const { from } = location.state;
+          history.replace(from);
+        },
+      ];
+      const onFail = [
+        () => setAuthFailed(true),
+        () => inputRef.current.select(),
+      ];
+      api.logIn(values, { onSuccess, onFail });
     },
   });
 

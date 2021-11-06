@@ -10,7 +10,7 @@ import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
 import { selectCurrentChannelId } from '../channels/ChannelsSlice.jsx';
-import { useApi } from '../../hooks/index.jsx';
+import { useApi } from '../../hooks/index.js';
 
 const SendForm = () => {
   const api = useApi();

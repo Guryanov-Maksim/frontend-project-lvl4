@@ -4,7 +4,7 @@ import { Modal, Form, Button } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
-import { useApi } from '../../hooks/index.jsx';
+import { useApi } from '../../hooks/index.js';
 import { selectAllChannels } from '../channels/ChannelsSlice.jsx';
 
 const Rename = (props) => {

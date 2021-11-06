@@ -10,25 +10,16 @@ import LoginPage from './pages/LoginPage.jsx';
 import MainPage from './pages/MainPage.jsx';
 import SignUpPage from './pages/SignupPage.jsx';
 import Page404 from './pages/Page404.jsx';
-import { authContext } from './contexts/index.jsx';
-import { useAuth } from './hooks/index.jsx';
-
-const isAuthUser = () => {
-  const userId = JSON.parse(localStorage.getItem('userId'));
-
-  if (userId && userId.token) {
-    return true;
-  }
-
-  return false;
-};
+import { authContext } from './contexts/index.js';
+import { useAuth, useApi } from './hooks/index.js';
 
 const AuthProvider = ({ children }) => {
-  const [loggedIn, setLoggedIn] = useState(isAuthUser());
+  const api = useApi();
+  const [loggedIn, setLoggedIn] = useState(api.isAuthUser());
 
   const logIn = () => setLoggedIn(true);
   const logOut = () => {
-    localStorage.removeItem('userId');
+    api.logOut();
     setLoggedIn(false);
   };
 

@@ -44,7 +44,7 @@ const withTimeout = (callbacks = { onSuccessCallbacks: [], onFailCallbacks: [] }
   };
 };
 
-const createApi = (store, socket) => {
+export default (store, socket) => {
   const timeout = 3000;
 
   const manageData = (operation) => (data, callbacks) => {
@@ -80,5 +80,3 @@ const createApi = (store, socket) => {
     renameChannel,
   };
 };
-
-export default createApi;

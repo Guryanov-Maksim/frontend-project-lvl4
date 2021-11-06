@@ -1,37 +1,26 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import axios from 'axios';
 import { Container, Row, Col } from 'react-bootstrap';
 
-import routes from '../routes.js';
 import { channelsFetched } from '../features/channels/ChannelsSlice.jsx';
 import { messagesFetched } from '../features/messages/MessagesSlice.jsx';
 import MessagesBox from '../features/messages/MessagesBox.jsx';
 import ChannelsBox from '../features/channels/ChannelsBox.jsx';
 import Modal from '../features/modals/Modal.jsx';
 import Navigation from '../components/Navigation.jsx';
-
-const getAuthHeader = () => {
-  const userId = JSON.parse(localStorage.getItem('userId'));
-  if (userId && userId.token) {
-    return { Authorization: `Bearer ${userId.token}` };
-  }
-
-  return {};
-};
+import { useApi } from '../hooks/index.js';
 
 const MainPage = () => {
   const dispatch = useDispatch();
+  const api = useApi();
 
   useEffect(() => {
-    const fetchContent = async () => {
-      const { data } = await axios.get(routes.contentPath(), { headers: getAuthHeader() });
-      const { messages, channels, currentChannelId } = data;
-      dispatch(channelsFetched({ channels, currentChannelId }));
-      dispatch(messagesFetched(messages));
-    };
+    const callbacks = [
+      ({ channels, currentChannelId }) => dispatch(channelsFetched({ channels, currentChannelId })),
+      ({ messages }) => dispatch(messagesFetched(messages)),
+    ];
 
-    fetchContent();
+    api.fetchContent(callbacks);
   });
 
   return (

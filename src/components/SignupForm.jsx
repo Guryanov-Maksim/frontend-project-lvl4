@@ -1,12 +1,11 @@
-import axios from 'axios';
 import React, { useState, useEffect, useRef } from 'react';
 import { useFormik } from 'formik';
 import { useHistory } from 'react-router-dom';
 import * as yup from 'yup';
 import { Form, Button, FormControl } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
-import routes from '../routes.js';
-import { useAuth } from '../hooks/index.jsx';
+
+import { useAuth, useApi } from '../hooks/index.js';
 
 const toString = (err) => (
   typeof err === 'string'
@@ -20,6 +19,7 @@ const SignupForm = () => {
   const auth = useAuth();
   const history = useHistory();
   const { t } = useTranslation();
+  const api = useApi();
 
   const schema = yup.object().shape({
     username: yup
@@ -52,24 +52,19 @@ const SignupForm = () => {
     validationSchema: schema,
     onSubmit: async (values, actions) => {
       setRegistrationFailed(false);
-      try {
-        const res = await axios.post(routes.signupPath(), values);
-        localStorage.setItem('userId', JSON.stringify(res.data));
-        auth.logIn();
-        history.replace('/');
-      } catch (err) {
-        if (err.response?.status === 409) {
-          setRegistrationFailed(true);
-          inputRef.current.select();
-          return;
-        }
-        if (err.isAxiosError) {
-          actions.setSubmitting(false);
-          inputRef.current.focus();
-          return;
-        }
-        throw err;
-      }
+      const onSuccess = [
+        () => auth.logIn(),
+        () => history.replace('/'),
+      ];
+      const onSingUpFail = [
+        () => setRegistrationFailed(true),
+        () => inputRef.current.select(),
+      ];
+      const onNetworkFail = [
+        () => actions.setSubmitting(false),
+        () => inputRef.current.focus(),
+      ];
+      api.signUp(values, { onSuccess, onSingUpFail, onNetworkFail });
     },
   });
 

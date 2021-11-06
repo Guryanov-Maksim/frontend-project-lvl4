@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 
-import { authContext, apiContext } from '../contexts/index.jsx';
+import { authContext, apiContext } from '../contexts/index.js';
 
 const useAuth = () => useContext(authContext);
 const useApi = () => useContext(apiContext);

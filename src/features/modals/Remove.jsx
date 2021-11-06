@@ -4,7 +4,7 @@ import { Modal, Button } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
-import { useApi } from '../../hooks/index.jsx';
+import { useApi } from '../../hooks/index.js';
 import { selectAllChannels, currentChannelIdChanged } from '../channels/ChannelsSlice.jsx';
 
 const Remove = (props) => {

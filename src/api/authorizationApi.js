@@ -42,7 +42,7 @@ const logOut = () => localStorage.removeItem('userId');
 
 const fetchContent = () => axios.get(routes.contentPath(), { headers: getAuthHeader() });
 
-const signUp = async (values) => (
+const signUp = (values) => (
   axios.post(routes.signupPath(), values)
     .then(({ data }) => saveUserData(data))
     .then(() => Promise.resolve())

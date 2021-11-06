@@ -28,13 +28,16 @@ const Remove = (props) => {
           initialValues={{
             body: '',
           }}
-          onSubmit={() => {
+          onSubmit={(_values, actions) => {
             const onSuccess = [
               () => onHide(),
               () => dispatch(currentChannelIdChanged({ id: defautlChannelId })),
             ];
+            const onFail = [
+              () => actions.setSubmitting(false),
+            ];
             const data = { id: modalInfo.extra };
-            api.removeChannel(data, { onSuccess });
+            api.removeChannel(data, { onSuccess, onFail });
           }}
         >
           {() => (

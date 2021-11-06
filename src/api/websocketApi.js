@@ -6,7 +6,7 @@ import {
   channelRenamed,
 } from '../features/channels/ChannelsSlice.jsx';
 
-const callCallbacks = (callbacks) => callbacks.forEach((cb) => cb());
+const delay = 3000;
 
 const mapping = {
   addChannel: 'newChannel',
@@ -14,6 +14,8 @@ const mapping = {
   renameChannel: 'renameChannel',
   sendMessage: 'newMessage',
 };
+
+const callCallbacks = (callbacks) => callbacks.forEach((cb) => cb());
 
 const withAcknowledge = ({ status }, { onSuccess, onFail }) => {
   if (status === 'ok') {
@@ -47,10 +49,8 @@ const withTimeout = (callbacks = { onSuccess: [], onFail: [] }, timeout) => {
 };
 
 export default (store, socket) => {
-  const timeout = 3000;
-
   const manageData = (operation) => (data, callbacks) => {
-    socket.volatile.emit(operation, data, withTimeout(callbacks, timeout));
+    socket.volatile.emit(operation, data, withTimeout(callbacks, delay));
   };
 
   socket.on('newMessage', (message) => {

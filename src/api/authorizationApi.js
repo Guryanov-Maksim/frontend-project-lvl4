@@ -13,8 +13,10 @@ export default () => {
       saveUserData(res.data);
       callCallbacks(onSuccess);
     } catch (err) {
+      console.log(err.isAxiosError && err.response.status === 401);
       if (err.isAxiosError && err.response.status === 401) {
         callCallbacks(onFail);
+        return;
       }
       throw err;
     }

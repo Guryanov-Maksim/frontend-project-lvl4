@@ -50,7 +50,7 @@ const SignupForm = () => {
       confirmation: '',
     },
     validationSchema: schema,
-    onSubmit: async (values, actions) => {
+    onSubmit: (values, actions) => {
       setRegistrationFailed(false);
       const onSuccess = [
         () => auth.logIn(),

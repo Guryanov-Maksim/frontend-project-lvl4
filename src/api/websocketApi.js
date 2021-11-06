@@ -5,7 +5,8 @@ import {
   currentChannelIdChanged,
   channelRenamed,
 } from '../features/channels/ChannelsSlice.jsx';
-import { callCallbacks } from '../helpers/callbacksCaller.js';
+
+const callCallbacks = (callbacks) => callbacks.forEach((cb) => cb());
 
 const mapping = {
   addChannel: 'newChannel',
@@ -17,10 +18,8 @@ const mapping = {
 const withAcknowledge = ({ status }, { onSuccess, onFail }) => {
   if (status === 'ok') {
     callCallbacks(onSuccess);
-    // onSuccessCallbacks.forEach((cb) => cb());
   } else {
     callCallbacks(onFail);
-    // onFailCallbacks.forEach((cb) => cb());
   }
 };
 
@@ -33,7 +32,6 @@ const withTimeout = (callbacks = { onSuccess: [], onFail: [] }, timeout) => {
     if (called) return;
     called = true;
     callCallbacks(onFail);
-    // onFailCallbacks.forEach((cb) => cb());
   }, timeout);
 
   return (response = defaultResponse) => {
@@ -44,7 +42,6 @@ const withTimeout = (callbacks = { onSuccess: [], onFail: [] }, timeout) => {
       withAcknowledge(response, callbacks);
     } else {
       callCallbacks(onSuccess);
-      // onSuccessCallbacks.forEach((cb) => cb());
     }
   };
 };

@@ -13,9 +13,12 @@ import Page404 from './pages/Page404.jsx';
 import { authContext } from './contexts/index.js';
 import { useAuth, useApi } from './hooks/index.js';
 
+const isAuthUser = (userId) => userId && userId.token;
+
 const AuthProvider = ({ children }) => {
   const api = useApi();
-  const [loggedIn, setLoggedIn] = useState(api.isAuthUser());
+  const userId = api.getAuthData();
+  const [loggedIn, setLoggedIn] = useState(isAuthUser(userId));
 
   const logIn = () => setLoggedIn(true);
   const logOut = () => {

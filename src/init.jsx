@@ -5,7 +5,7 @@ import i18n from 'i18next';
 import { initReactI18next, I18nextProvider } from 'react-i18next';
 import * as yup from 'yup';
 
-import createApi from './api/apiCreator.js';
+import createApi from './api/index.js';
 import store from './store.js';
 import App from './App.jsx';
 import { apiContext } from './contexts/index.js';

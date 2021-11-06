@@ -41,15 +41,15 @@ const Rename = (props) => {
             return errors;
           }}
           onSubmit={(values, actions) => {
-            const onSuccessCallbacks = [
+            const onSuccess = [
               () => onHide(),
             ];
-            const onFailCallbacks = [
+            const onFail = [
               () => inputRef.current.focus(),
               () => actions.setSubmitting(false),
             ];
             const updatedChannel = { id: modalInfo.extra.id, name: values.body };
-            api.renameChannel(updatedChannel, { onSuccessCallbacks, onFailCallbacks });
+            api.renameChannel(updatedChannel, { onSuccess, onFail });
           }}
         >
           {({

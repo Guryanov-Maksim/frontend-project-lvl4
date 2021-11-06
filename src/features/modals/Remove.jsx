@@ -29,12 +29,12 @@ const Remove = (props) => {
             body: '',
           }}
           onSubmit={() => {
-            const onSuccessCallbacks = [
+            const onSuccess = [
               () => onHide(),
               () => dispatch(currentChannelIdChanged({ id: defautlChannelId })),
             ];
             const data = { id: modalInfo.extra };
-            api.removeChannel(data, { onSuccessCallbacks });
+            api.removeChannel(data, { onSuccess });
           }}
         >
           {() => (

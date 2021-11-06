@@ -5,6 +5,7 @@ import {
   currentChannelIdChanged,
   channelRenamed,
 } from '../features/channels/ChannelsSlice.jsx';
+import { callCallbacks } from '../helpers/callbacksCaller.js';
 
 const mapping = {
   addChannel: 'newChannel',
@@ -13,23 +14,26 @@ const mapping = {
   sendMessage: 'newMessage',
 };
 
-const withAcknowledge = ({ status }, { onSuccessCallbacks, onFailCallbacks }) => {
+const withAcknowledge = ({ status }, { onSuccess, onFail }) => {
   if (status === 'ok') {
-    onSuccessCallbacks.forEach((cb) => cb());
+    callCallbacks(onSuccess);
+    // onSuccessCallbacks.forEach((cb) => cb());
   } else {
-    onFailCallbacks.forEach((cb) => cb());
+    callCallbacks(onFail);
+    // onFailCallbacks.forEach((cb) => cb());
   }
 };
 
-const withTimeout = (callbacks = { onSuccessCallbacks: [], onFailCallbacks: [] }, timeout) => {
+const withTimeout = (callbacks = { onSuccess: [], onFail: [] }, timeout) => {
   let called = false; // eslint-disable-line
   const defaultResponse = {};
-  const { onSuccessCallbacks, onFailCallbacks } = callbacks;
+  const { onSuccess, onFail } = callbacks;
 
   const timer = setTimeout(() => {
     if (called) return;
     called = true;
-    onFailCallbacks.forEach((cb) => cb());
+    callCallbacks(onFail);
+    // onFailCallbacks.forEach((cb) => cb());
   }, timeout);
 
   return (response = defaultResponse) => {
@@ -39,7 +43,8 @@ const withTimeout = (callbacks = { onSuccessCallbacks: [], onFailCallbacks: [] }
     if (response.status) {
       withAcknowledge(response, callbacks);
     } else {
-      onSuccessCallbacks.forEach((cb) => cb());
+      callCallbacks(onSuccess);
+      // onSuccessCallbacks.forEach((cb) => cb());
     }
   };
 };

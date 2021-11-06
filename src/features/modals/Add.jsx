@@ -42,14 +42,14 @@ const Add = (props) => {
           }}
           onSubmit={(values, actions) => {
             const newChannel = { name: values.body, removable: true };
-            const onSuccessCallbacks = [
+            const onSuccess = [
               () => onHide(),
             ];
-            const onFailCallbacks = [
+            const onFail = [
               () => inputRef.current.focus(),
               () => actions.setSubmitting(false),
             ];
-            api.addChannel(newChannel, { onSuccessCallbacks, onFailCallbacks });
+            api.addChannel(newChannel, { onSuccess, onFail });
           }}
         >
           {({

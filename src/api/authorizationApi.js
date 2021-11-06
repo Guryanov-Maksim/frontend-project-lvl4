@@ -1,10 +1,10 @@
 import axios from 'axios';
 
 import routes from '../routes.js';
+import { callCallbacks, callCallbacksWithData } from '../helpers/callbacksCaller.js';
 
 const getUserData = () => JSON.parse(localStorage.getItem('userId'));
 const saveUserData = (data) => localStorage.setItem('userId', JSON.stringify(data));
-const callCallbacks = (callbacks) => callbacks.forEach((cb) => cb());
 
 export default () => {
   const logIn = async (data, { onSuccess, onFail }) => {
@@ -42,7 +42,7 @@ export default () => {
 
   const fetchContent = async (callbacks) => {
     const { data } = await axios.get(routes.contentPath(), { headers: getAuthHeader() });
-    callbacks.forEach((cb) => cb(data));
+    callCallbacksWithData(callbacks, data);
   };
 
   const signUp = async (data, { onSuccess, onSingUpFail, onNetworkFail }) => {

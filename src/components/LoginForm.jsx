@@ -26,18 +26,26 @@ const LoginForm = () => {
     },
     onSubmit: (values) => {
       setAuthFailed(false);
-      const onSuccess = [
-        () => auth.logIn(),
-        () => {
+      api.logIn(values)
+        .then(() => {
+          auth.logIn();
           const { from } = location.state;
           history.replace(from);
-        },
-      ];
-      const onFail = [
-        () => setAuthFailed(true),
-        () => inputRef.current.select(),
-      ];
-      api.logIn(values, { onSuccess, onFail });
+        })
+        .catch((error) => {
+          switch (error.message) {
+            case 'unauthorized': {
+              setAuthFailed(true);
+              inputRef.current.select();
+              break;
+            }
+            case 'network':
+              inputRef.current.select();
+              break;
+            default:
+              console.error(error);
+          }
+        });
     },
   });
 

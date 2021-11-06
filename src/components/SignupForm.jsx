@@ -52,19 +52,27 @@ const SignupForm = () => {
     validationSchema: schema,
     onSubmit: (values, actions) => {
       setRegistrationFailed(false);
-      const onSuccess = [
-        () => auth.logIn(),
-        () => history.replace('/'),
-      ];
-      const onSingUpFail = [
-        () => setRegistrationFailed(true),
-        () => inputRef.current.select(),
-      ];
-      const onNetworkFail = [
-        () => actions.setSubmitting(false),
-        () => inputRef.current.focus(),
-      ];
-      api.signUp(values, { onSuccess, onSingUpFail, onNetworkFail });
+      api.signUp(values)
+        .then(() => {
+          auth.logIn();
+          history.replace('/');
+        })
+        .catch((error) => {
+          switch (error.message) {
+            case 'network': {
+              actions.setSubmitting(false);
+              inputRef.current.focus();
+              break;
+            }
+            case 'conflict': {
+              setRegistrationFailed(true);
+              inputRef.current.select();
+              break;
+            }
+            default:
+              console.error(error);
+          }
+        });
     },
   });
 

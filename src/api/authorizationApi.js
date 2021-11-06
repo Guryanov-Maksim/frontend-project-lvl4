@@ -1,26 +1,24 @@
 import axios from 'axios';
 
 import routes from '../routes.js';
-import { callCallbacks, callCallbacksWithData } from '../helpers/callbacksCaller.js';
 
 const getUserData = () => JSON.parse(localStorage.getItem('userId'));
 
 const saveUserData = (data) => localStorage.setItem('userId', JSON.stringify(data));
 
-const logIn = async (data, { onSuccess, onFail }) => {
-  try {
-    const res = await axios.post(routes.loginPath(), data);
-    saveUserData(res.data);
-    callCallbacks(onSuccess);
-  } catch (err) {
-    console.log(err.isAxiosError && err.response.status === 401);
-    if (err.isAxiosError && err.response.status === 401) {
-      callCallbacks(onFail);
-      return;
-    }
-    throw err;
-  }
-};
+const logIn = (values) => (
+  axios.post(routes.loginPath(), values)
+    .then(({ data }) => saveUserData(data))
+    .catch((error) => {
+      if (error.isAxiosError && error.response?.status === 401) {
+        throw new Error('unauthorized');
+      }
+      if (error.isAxiosError) {
+        throw new Error('network');
+      }
+      throw error;
+    })
+);
 
 const isAuthUser = () => {
   const userId = getUserData();
@@ -42,28 +40,22 @@ const getAuthHeader = () => {
 
 const logOut = () => localStorage.removeItem('userId');
 
-const fetchContent = async (callbacks) => {
-  const { data } = await axios.get(routes.contentPath(), { headers: getAuthHeader() });
-  callCallbacksWithData(callbacks, data);
-};
+const fetchContent = () => axios.get(routes.contentPath(), { headers: getAuthHeader() });
 
-const signUp = async (data, { onSuccess, onSingUpFail, onNetworkFail }) => {
-  try {
-    const res = await axios.post(routes.signupPath(), data);
-    saveUserData(res.data);
-    callCallbacks(onSuccess);
-  } catch (err) {
-    if (err.response?.status === 409) {
-      callCallbacks(onSingUpFail);
-      return;
-    }
-    if (err.isAxiosError) {
-      callCallbacks(onNetworkFail);
-      return;
-    }
-    throw err;
-  }
-};
+const signUp = async (values) => (
+  axios.post(routes.signupPath(), values)
+    .then(({ data }) => saveUserData(data))
+    .then(() => Promise.resolve())
+    .catch((error) => {
+      if (error.response?.status === 409) {
+        throw new Error('conflict');
+      }
+      if (error.isAxiosError) {
+        throw new Error('network');
+      }
+      throw error;
+    })
+);
 
 export default () => (
   {

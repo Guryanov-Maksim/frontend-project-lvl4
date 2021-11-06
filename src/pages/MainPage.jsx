@@ -15,12 +15,12 @@ const MainPage = () => {
   const api = useApi();
 
   useEffect(() => {
-    const callbacks = [
-      ({ channels, currentChannelId }) => dispatch(channelsFetched({ channels, currentChannelId })),
-      ({ messages }) => dispatch(messagesFetched(messages)),
-    ];
-
-    api.fetchContent(callbacks);
+    api.fetchContent()
+      .then(({ data: { channels, currentChannelId, messages } }) => {
+        dispatch(channelsFetched({ channels, currentChannelId }));
+        dispatch(messagesFetched(messages));
+      })
+      .catch((error) => console.error(error));
   });
 
   return (

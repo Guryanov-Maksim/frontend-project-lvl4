@@ -6,7 +6,7 @@ const modalSlice = createSlice({
   name: 'modal',
   initialState,
   reducers: {
-    modalToggled: (state, { payload }) => ({ ...state, ...payload }),
+    modalToggled: (state, { payload }) => payload,
   },
 });
 

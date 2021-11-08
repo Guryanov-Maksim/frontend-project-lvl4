@@ -15,23 +15,17 @@ const channelsSlice = createSlice({
     channelFetched: (state, { payload: { channel } }) => {
       state.channels.push(channel);
     },
-    currentChannelIdChanged: (state, { payload: { id } }) => (
-      { ...state, currentChannelId: id }
-    ),
-    channelRemoved: (state, { payload: { id } }) => (
-      {
-        ...state,
-        channels: state.channels.filter((channel) => channel.id !== id),
-      }
-    ),
-    channelRenamed: (state, { payload: { renamedChannel } }) => (
-      {
-        ...state,
-        channels: state.channels.map((channel) => (
-          channel.id === renamedChannel.id ? renamedChannel : channel
-        )),
-      }
-    ),
+    currentChannelIdChanged: (state, { payload: { id } }) => {
+      state.currentChannelId = id; // eslint-disable-line
+    },
+    channelRemoved: (state, { payload: { id } }) => {
+      state.channels = state.channels.filter((channel) => channel.id !== id); // eslint-disable-line
+    },
+    channelRenamed: (state, { payload: { renamedChannel } }) => {
+      state.channels = state.channels.map((channel) => ( // eslint-disable-line
+        channel.id === renamedChannel.id ? renamedChannel : channel
+      ));
+    },
   },
 });
 

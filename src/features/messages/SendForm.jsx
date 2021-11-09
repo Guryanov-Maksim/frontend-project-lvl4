@@ -20,7 +20,7 @@ const SendForm = () => {
 
   useEffect(() => {
     inputRef.current.focus();
-  }, []);
+  }, [currentChannelId]);
 
   const formik = useFormik({
     initialValues: {

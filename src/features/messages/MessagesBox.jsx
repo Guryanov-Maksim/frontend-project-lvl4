@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import { animateScroll } from 'react-scroll';
 
 import { selectAllMessages } from './MessagesSlice.jsx';
 import { selectCurrentChannelId } from '../channels/ChannelsSlice.jsx';
@@ -14,10 +15,8 @@ const Message = ({ message }) => (
 );
 
 const Messages = ({ messages }) => (
-  <div className="overflow-auto px-5">
-    {messages.map((message) => (
-      <Message key={message.id} message={message} />
-    ))}
+  <div className="overflow-auto px-5" id="containerElement">
+    {messages.map((message) => <Message key={message.id} message={message} />)}
   </div>
 );
 
@@ -25,6 +24,13 @@ const MessagesBox = () => {
   const allMessages = useSelector(selectAllMessages);
   const currentChannelId = useSelector(selectCurrentChannelId);
   const activeChannelMessages = allMessages.filter((m) => m.channelId === currentChannelId);
+
+  useEffect(() => {
+    animateScroll.scrollToBottom({
+      containerId: 'containerElement',
+      duration: 0,
+    });
+  });
 
   return (
     <div className="col p-0 h-100">

@@ -15,6 +15,27 @@ const Rename = (props) => {
 
   const inputRef = useRef();
 
+  const validate = (values) => {
+    const errors = {};
+    const isChannelAlreadyExist = !!channels.find((ch) => ch.name === values.body);
+    if (isChannelAlreadyExist) {
+      errors.body = t('errors.sameName');
+    }
+    return errors;
+  };
+
+  const onSubmit = (values, actions) => {
+    const onSuccess = [
+      () => onHide(),
+    ];
+    const onFail = [
+      () => inputRef.current.focus(),
+      () => actions.setSubmitting(false),
+    ];
+    const updatedChannel = { id: modalInfo.extra.id, name: values.body };
+    api.renameChannel(updatedChannel, { onSuccess, onFail });
+  };
+
   useEffect(() => {
     inputRef.current.select();
   }, []);
@@ -32,25 +53,8 @@ const Rename = (props) => {
           }}
           validateOnChange={false}
           validateOnBlur={false}
-          validate={(values) => {
-            const errors = {};
-            const isChannelAlreadyExist = !!channels.find((ch) => ch.name === values.body);
-            if (isChannelAlreadyExist) {
-              errors.body = t('errors.sameName');
-            }
-            return errors;
-          }}
-          onSubmit={(values, actions) => {
-            const onSuccess = [
-              () => onHide(),
-            ];
-            const onFail = [
-              () => inputRef.current.focus(),
-              () => actions.setSubmitting(false),
-            ];
-            const updatedChannel = { id: modalInfo.extra.id, name: values.body };
-            api.renameChannel(updatedChannel, { onSuccess, onFail });
-          }}
+          validate={validate}
+          onSubmit={onSubmit}
         >
           {({
             handleChange,

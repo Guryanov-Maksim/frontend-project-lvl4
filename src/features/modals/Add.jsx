@@ -19,6 +19,27 @@ const Add = (props) => {
     inputRef.current.focus();
   }, []);
 
+  const validate = (values) => {
+    const errors = {};
+    const isChannelAlreadyExist = !!channels.find((ch) => ch.name === values.body);
+    if (isChannelAlreadyExist) {
+      errors.body = t('errors.sameName');
+    }
+    return errors;
+  };
+
+  const onSubmit = (values, actions) => {
+    const newChannel = { name: values.body, removable: true };
+    const onSuccess = [
+      () => onHide(),
+    ];
+    const onFail = [
+      () => inputRef.current.focus(),
+      () => actions.setSubmitting(false),
+    ];
+    api.addChannel(newChannel, { onSuccess, onFail });
+  };
+
   return (
     <Modal show={modalInfo.isOpen} onHide={onHide}>
       <Modal.Header closeButton onHide={onHide}>
@@ -32,25 +53,8 @@ const Add = (props) => {
           }}
           validateOnChange={false} // for validation on submit
           validateOnBlur={false} // for validation on submit
-          validate={(values) => {
-            const errors = {};
-            const isChannelAlreadyExist = !!channels.find((ch) => ch.name === values.body);
-            if (isChannelAlreadyExist) {
-              errors.body = t('errors.sameName');
-            }
-            return errors;
-          }}
-          onSubmit={(values, actions) => {
-            const newChannel = { name: values.body, removable: true };
-            const onSuccess = [
-              () => onHide(),
-            ];
-            const onFail = [
-              () => inputRef.current.focus(),
-              () => actions.setSubmitting(false),
-            ];
-            api.addChannel(newChannel, { onSuccess, onFail });
-          }}
+          validate={validate}
+          onSubmit={onSubmit}
         >
           {({
             handleChange,

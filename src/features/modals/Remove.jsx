@@ -16,6 +16,18 @@ const Remove = (props) => {
   const defautlChannelId = defaultChannel.id;
   const { t } = useTranslation();
 
+  const onSubmit = (_values, actions) => {
+    const onSuccess = [
+      () => onHide(),
+      () => dispatch(currentChannelIdChanged({ id: defautlChannelId })),
+    ];
+    const onFail = [
+      () => actions.setSubmitting(false),
+    ];
+    const data = { id: modalInfo.extra };
+    api.removeChannel(data, { onSuccess, onFail });
+  };
+
   return (
     <Modal show={modalInfo.isOpen} onHide={onHide}>
       <Modal.Header closeButton onHide={onHide}>
@@ -28,17 +40,7 @@ const Remove = (props) => {
           initialValues={{
             body: '',
           }}
-          onSubmit={(_values, actions) => {
-            const onSuccess = [
-              () => onHide(),
-              () => dispatch(currentChannelIdChanged({ id: defautlChannelId })),
-            ];
-            const onFail = [
-              () => actions.setSubmitting(false),
-            ];
-            const data = { id: modalInfo.extra };
-            api.removeChannel(data, { onSuccess, onFail });
-          }}
+          onSubmit={onSubmit}
         >
           {() => (
             <Form>

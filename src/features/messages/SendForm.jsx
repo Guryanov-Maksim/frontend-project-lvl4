@@ -49,7 +49,7 @@ const SendForm = () => {
     <div className="mt-auto px-5 py-3">
       <Form onSubmit={formik.handleSubmit}>
         <Row>
-          <Form.Group as={Col} sm={8}>
+          <Form.Group as={Col} sm>
             <Form.Control
               type="text"
               name="text"
@@ -60,7 +60,7 @@ const SendForm = () => {
               ref={inputRef}
             />
           </Form.Group>
-          <Col sm>
+          <Col sm="auto">
             <Button className="btn btn-group-vertical" disabled={formik.values.text === '' || formik.isSubmitting} type="submit">
               {t('messages.submitButton')}
             </Button>

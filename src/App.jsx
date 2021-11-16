@@ -12,6 +12,7 @@ import SignUpPage from './pages/SignupPage.jsx';
 import Page404 from './pages/Page404.jsx';
 import { authContext } from './contexts/index.js';
 import { useAuth, useApi } from './hooks/index.js';
+import routes from './routes.js';
 
 const isAuthUser = (userId) => userId && userId.token;
 
@@ -41,7 +42,14 @@ const MainRoute = ({ children, path }) => {
       path={path}
       render={() => (auth.loggedIn
         ? children
-        : <Redirect to={{ pathname: '/login', state: { from: '/' } }} />)}
+        : (
+          <Redirect
+            to={{
+              pathname: routes.loginRoute(),
+              state: { from: routes.privateRoute() },
+            }}
+          />
+        ))}
     />
   );
 };
@@ -50,16 +58,16 @@ const App = () => (
   <AuthProvider>
     <Router>
       <Switch>
-        <Route exact path="/login">
+        <Route exact path={routes.loginRoute()}>
           <LoginPage />
         </Route>
-        <Route exact path="/signup">
+        <Route exact path={routes.signUpRoute()}>
           <SignUpPage />
         </Route>
-        <MainRoute exact path="/">
+        <MainRoute exact path={routes.privateRoute()}>
           <MainPage />
         </MainRoute>
-        <Route path="*">
+        <Route path={routes.defaultRoute()}>
           <Page404 />
         </Route>
       </Switch>

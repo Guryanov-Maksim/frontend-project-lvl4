@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router-dom';
 
 import { useAuth } from '../hooks/index.js';
+import routes from '../routes.js';
 
 const AuthButton = () => {
   const auth = useAuth();
@@ -22,7 +23,7 @@ const Navigation = () => {
   return (
     <Navbar className="shadow-sm" bg="light" expand="lg">
       <Container>
-        <Navbar.Brand as={NavLink} to="/">{t('mainNav.mainPageLink') }</Navbar.Brand>
+        <Navbar.Brand as={NavLink} to={routes.privateRoute()}>{t('mainNav.mainPageLink') }</Navbar.Brand>
         <AuthButton />
       </Container>
     </Navbar>

@@ -13,6 +13,7 @@ import Page404 from './pages/Page404.jsx';
 import { authContext } from './contexts/index.js';
 import { useAuth, useApi } from './hooks/index.js';
 import routes from './routes.js';
+import Navigation from './components/Navigation.jsx';
 
 const isAuthUser = (userId) => userId && userId.token;
 
@@ -56,22 +57,25 @@ const PrivateRoute = ({ children, path }) => {
 
 const App = () => (
   <AuthProvider>
-    <Router>
-      <Switch>
-        <Route exact path={routes.loginRoute()}>
-          <LoginPage />
-        </Route>
-        <Route exact path={routes.signUpRoute()}>
-          <SignUpPage />
-        </Route>
-        <PrivateRoute exact path={routes.privateRoute()}>
-          <ChatPage />
-        </PrivateRoute>
-        <Route path={routes.defaultRoute()}>
-          <Page404 />
-        </Route>
-      </Switch>
-    </Router>
+    <div className="d-flex flex-column h-100">
+      <Router>
+        <Navigation />
+        <Switch>
+          <Route exact path={routes.loginRoute()}>
+            <LoginPage />
+          </Route>
+          <Route exact path={routes.signUpRoute()}>
+            <SignUpPage />
+          </Route>
+          <PrivateRoute exact path={routes.privateRoute()}>
+            <ChatPage />
+          </PrivateRoute>
+          <Route path={routes.defaultRoute()}>
+            <Page404 />
+          </Route>
+        </Switch>
+      </Router>
+    </div>
   </AuthProvider>
 );
 

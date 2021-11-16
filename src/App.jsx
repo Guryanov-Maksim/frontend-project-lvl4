@@ -7,7 +7,7 @@ import {
 } from 'react-router-dom';
 
 import LoginPage from './pages/LoginPage.jsx';
-import MainPage from './pages/MainPage.jsx';
+import ChatPage from './pages/ChatPage.jsx';
 import SignUpPage from './pages/SignupPage.jsx';
 import Page404 from './pages/Page404.jsx';
 import { authContext } from './contexts/index.js';
@@ -34,7 +34,7 @@ const AuthProvider = ({ children }) => {
   );
 };
 
-const MainRoute = ({ children, path }) => {
+const PrivateRoute = ({ children, path }) => {
   const auth = useAuth();
 
   return (
@@ -64,9 +64,9 @@ const App = () => (
         <Route exact path={routes.signUpRoute()}>
           <SignUpPage />
         </Route>
-        <MainRoute exact path={routes.privateRoute()}>
-          <MainPage />
-        </MainRoute>
+        <PrivateRoute exact path={routes.privateRoute()}>
+          <ChatPage />
+        </PrivateRoute>
         <Route path={routes.defaultRoute()}>
           <Page404 />
         </Route>

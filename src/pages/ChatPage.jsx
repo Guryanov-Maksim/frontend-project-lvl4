@@ -10,7 +10,7 @@ import Modal from '../features/modals/Modal.jsx';
 import Navigation from '../components/Navigation.jsx';
 import { useApi } from '../hooks/index.js';
 
-const MainPage = () => {
+const ChatPage = () => {
   const dispatch = useDispatch();
   const api = useApi();
 
@@ -41,4 +41,4 @@ const MainPage = () => {
   );
 };
 
-export default MainPage;
+export default ChatPage;

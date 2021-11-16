@@ -9,6 +9,7 @@ import {
 import { useTranslation } from 'react-i18next';
 
 import LoginForm from '../components/LoginForm.jsx';
+import routes from '../routes.js';
 
 const LoginPage = () => {
   const { t } = useTranslation();
@@ -23,7 +24,7 @@ const LoginPage = () => {
               <LoginForm />
             </Card.Body>
             <Card.Footer className="text-muted">
-              <Link to="/signup">{t('loginPage.regLink')}</Link>
+              <Link to={routes.signUpRoute()}>{t('loginPage.regLink')}</Link>
             </Card.Footer>
           </Card>
         </Col>

@@ -7,6 +7,7 @@ import {
   Col,
 } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
+import routes from '../routes';
 
 const Page404 = () => {
   const { t } = useTranslation();
@@ -19,7 +20,7 @@ const Page404 = () => {
             <Card.Body>
               <Card.Title>
                 {t('page404.text')}
-                <Link to="/">{t('page404.link')}</Link>
+                <Link to={routes.privateRoute()}>{t('page404.link')}</Link>
               </Card.Title>
             </Card.Body>
           </Card>

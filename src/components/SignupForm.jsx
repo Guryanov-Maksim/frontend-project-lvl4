@@ -6,6 +6,7 @@ import { Form, Button, FormControl } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 
 import { useAuth, useApi } from '../hooks/index.js';
+import routes from '../routes.js';
 
 const toString = (err) => (
   typeof err === 'string'
@@ -55,7 +56,7 @@ const SignupForm = () => {
       api.signUp(values)
         .then(() => {
           auth.logIn();
-          history.replace('/');
+          history.replace(routes.privateRoute());
         })
         .catch((error) => {
           switch (error.message) {

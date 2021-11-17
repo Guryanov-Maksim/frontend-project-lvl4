@@ -1,5 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { channelRemoved } from '../channels/ChannelsSlice.jsx';
+import { createSlice, createSelector } from '@reduxjs/toolkit';
+import { channelRemoved, selectCurrentChannelId } from '../channels/ChannelsSlice.jsx';
 
 const initialState = [];
 
@@ -25,4 +25,8 @@ export const { messagesFetched, messageFetched } = messagesSlice.actions;
 
 export default messagesSlice.reducer;
 
-export const selectAllMessages = (state) => state.messages;
+export const selectActiveChannelMessages = createSelector(
+  (state) => state.messages,
+  selectCurrentChannelId,
+  (allMessages, currentChannelId) => allMessages.filter((m) => m.channelId === currentChannelId),
+);

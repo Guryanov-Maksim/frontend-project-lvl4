@@ -2,8 +2,7 @@ import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { animateScroll } from 'react-scroll';
 
-import { selectAllMessages } from './MessagesSlice.jsx';
-import { selectCurrentChannelId } from '../channels/ChannelsSlice.jsx';
+import { selectActiveChannelMessages } from './MessagesSlice.jsx';
 import Header from './Header.jsx';
 import SendForm from './SendForm.jsx';
 
@@ -21,9 +20,7 @@ const Messages = ({ messages }) => (
 );
 
 const MessagesBox = () => {
-  const allMessages = useSelector(selectAllMessages);
-  const currentChannelId = useSelector(selectCurrentChannelId);
-  const activeChannelMessages = allMessages.filter((m) => m.channelId === currentChannelId);
+  const activeChannelMessages = useSelector(selectActiveChannelMessages);
 
   useEffect(() => {
     animateScroll.scrollToBottom({

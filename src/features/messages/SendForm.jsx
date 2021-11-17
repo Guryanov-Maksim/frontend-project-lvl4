@@ -27,7 +27,7 @@ const SendForm = () => {
       text: '',
     },
     onSubmit: (values, actions) => {
-      const { username } = JSON.parse(localStorage.getItem('userId'));
+      const { username } = api.getAuthData();
       const message = {
         text: values.text,
         channelId: currentChannelId,

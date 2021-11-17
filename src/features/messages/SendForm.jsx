@@ -10,13 +10,14 @@ import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
 import { selectCurrentChannelId } from '../channels/ChannelsSlice.jsx';
-import { useApi } from '../../hooks/index.js';
+import { useApi, useAuth } from '../../hooks/index.js';
 
 const SendForm = () => {
   const api = useApi();
   const currentChannelId = useSelector(selectCurrentChannelId);
   const { t } = useTranslation();
   const inputRef = useRef();
+  const { username } = useAuth();
 
   useEffect(() => {
     inputRef.current.focus();
@@ -27,7 +28,6 @@ const SendForm = () => {
       text: '',
     },
     onSubmit: (values, actions) => {
-      const { username } = api.getAuthData();
       const message = {
         text: values.text,
         channelId: currentChannelId,

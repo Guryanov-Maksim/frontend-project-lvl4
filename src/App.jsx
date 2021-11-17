@@ -19,8 +19,9 @@ const isAuthUser = (userId) => userId && userId.token;
 
 const AuthProvider = ({ children }) => {
   const api = useApi();
-  const userId = api.getAuthData();
+  const userId = api.getAuthData() || { username: null };
   const [loggedIn, setLoggedIn] = useState(isAuthUser(userId));
+  const { username } = userId;
 
   const logIn = () => setLoggedIn(true);
   const logOut = () => {
@@ -29,7 +30,14 @@ const AuthProvider = ({ children }) => {
   };
 
   return (
-    <authContext.Provider value={{ loggedIn, logIn, logOut }}>
+    <authContext.Provider
+      value={{
+        username,
+        loggedIn,
+        logIn,
+        logOut,
+      }}
+    >
       {children}
     </authContext.Provider>
   );

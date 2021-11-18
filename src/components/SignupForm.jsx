@@ -2,7 +2,12 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useFormik } from 'formik';
 import { useHistory } from 'react-router-dom';
 import * as yup from 'yup';
-import { Form, Button, FormControl } from 'react-bootstrap';
+import {
+  Form,
+  Button,
+  FormControl,
+  Spinner,
+} from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 
 import { useAuth, useApi } from '../hooks/index.js';
@@ -142,7 +147,22 @@ const SignupForm = () => {
             : t(`errors.${formik.errors.confirmation}`)}
         </Form.Control.Feedback>
       </Form.Group>
-      <Button type="submit" onClick={resetRefistrationFail} disabled={formik.isSubmitting} variant="outline-primary">{t('signupPage.submitButton')}</Button>
+      <Button type="submit" onClick={resetRefistrationFail} variant="outline-primary" disabled={formik.isSubmitting}>
+        {formik.isSubmitting
+          ? (
+            <>
+              <Spinner
+                as="span"
+                animation="border"
+                size="sm"
+                role="status"
+                aria-hidden="true"
+              />
+              <span className="sr-only">Loading...</span>
+            </>
+          )
+          : t('signupPage.submitButton')}
+      </Button>
     </Form>
   );
 };

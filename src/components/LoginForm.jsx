@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useFormik } from 'formik';
 import { useLocation, useHistory } from 'react-router-dom';
-import { Form, Button } from 'react-bootstrap';
+import { Form, Button, Spinner } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 
 import { useAuth, useApi } from '../hooks/index.js';
@@ -86,7 +86,22 @@ const LoginForm = () => {
           </Form.Control.Feedback>
         )}
       </Form.Group>
-      <Button type="submit" variant="outline-primary" disabled={formik.isSubmitting}>{t('loginPage.submitButton')}</Button>
+      <Button type="submit" variant="outline-primary" disabled={formik.isSubmitting}>
+        {formik.isSubmitting
+          ? (
+            <>
+              <Spinner
+                as="span"
+                animation="border"
+                size="sm"
+                role="status"
+                aria-hidden="true"
+              />
+              <span className="sr-only">Loading...</span>
+            </>
+          )
+          : t('loginPage.submitButton')}
+      </Button>
     </Form>
   );
 };

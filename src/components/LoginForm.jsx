@@ -5,6 +5,7 @@ import { Form, Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 
 import { useAuth, useApi } from '../hooks/index.js';
+import { types } from '../error.js';
 
 const LoginForm = () => {
   const [authFailed, setAuthFailed] = useState(false);
@@ -24,28 +25,27 @@ const LoginForm = () => {
       username: '',
       password: '',
     },
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       setAuthFailed(false);
-      api.logIn(values)
-        .then(() => {
-          auth.logIn();
-          const { from } = location.state;
-          history.replace(from);
-        })
-        .catch((error) => {
-          switch (error.message) {
-            case 'unauthorized': {
-              setAuthFailed(true);
-              inputRef.current.select();
-              break;
-            }
-            case 'network':
-              inputRef.current.select();
-              break;
-            default:
-              console.error(error);
+      try {
+        await api.logIn(values);
+        auth.logIn();
+        const { from } = location.state;
+        history.replace(from);
+      } catch (error) {
+        switch (error.type) {
+          case types.unauthorized: {
+            setAuthFailed(true);
+            inputRef.current.select();
+            break;
           }
-        });
+          case types.network:
+            inputRef.current.select();
+            break;
+          default:
+            console.error(error);
+        }
+      }
     },
   });
 
@@ -62,7 +62,7 @@ const LoginForm = () => {
           autoComplete="username"
           required
           ref={inputRef}
-          isValid={!formik.errors.username}
+          // isValid={!formik.errors.username}
           isInvalid={authFailed}
         />
       </Form.Group>
@@ -77,7 +77,7 @@ const LoginForm = () => {
           id="password"
           autoComplete="current-password"
           required
-          isValid={!formik.errors.username}
+          // isValid={!formik.errors.username}
           isInvalid={authFailed}
         />
         {authFailed && (
@@ -86,7 +86,7 @@ const LoginForm = () => {
           </Form.Control.Feedback>
         )}
       </Form.Group>
-      <Button type="submit" variant="outline-primary">{t('loginPage.submitButton')}</Button>
+      <Button type="submit" variant="outline-primary" disabled={formik.isSubmitting}>{t('loginPage.submitButton')}</Button>
     </Form>
   );
 };

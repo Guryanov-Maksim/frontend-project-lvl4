@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 
 import { useAuth, useApi } from '../hooks/index.js';
 import routes from '../routes.js';
+import { types } from '../error.js';
 
 const toString = (err) => (
   typeof err === 'string'
@@ -51,29 +52,27 @@ const SignupForm = () => {
       confirmation: '',
     },
     validationSchema: schema,
-    onSubmit: (values, actions) => {
+    onSubmit: async (values) => {
       setRegistrationFailed(false);
-      api.signUp(values)
-        .then(() => {
-          auth.logIn();
-          history.replace(routes.privateRoute());
-        })
-        .catch((error) => {
-          switch (error.message) {
-            case 'network': {
-              actions.setSubmitting(false);
-              inputRef.current.focus();
-              break;
-            }
-            case 'conflict': {
-              setRegistrationFailed(true);
-              inputRef.current.select();
-              break;
-            }
-            default:
-              console.error(error);
+      try {
+        await api.signUp(values);
+        auth.logIn();
+        history.replace(routes.privateRoute());
+      } catch (error) {
+        switch (error.type) {
+          case types.conflict: {
+            setRegistrationFailed(true);
+            inputRef.current.select();
+            break;
           }
-        });
+          case types.network: {
+            inputRef.current.focus();
+            break;
+          }
+          default:
+            console.error(error);
+        }
+      }
     },
   });
 

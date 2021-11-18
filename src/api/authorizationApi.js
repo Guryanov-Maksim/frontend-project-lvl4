@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 import routes from '../routes.js';
+import createErrorWithType, { types } from '../error.js';
 
 const getAuthData = () => JSON.parse(localStorage.getItem('userId'));
 
@@ -11,10 +12,10 @@ const logIn = (values) => (
     .then(({ data }) => saveAuthData(data))
     .catch((error) => {
       if (error.response?.status === 401) {
-        throw new Error('unauthorized');
+        throw createErrorWithType(error, types.unauthorized);
       }
       if (error.isAxiosError) {
-        throw new Error('network');
+        throw createErrorWithType(error, types.network);
       }
       throw error;
     })
@@ -38,10 +39,10 @@ const signUp = (values) => (
     .then(({ data }) => saveAuthData(data))
     .catch((error) => {
       if (error.response?.status === 409) {
-        throw new Error('conflict');
+        throw createErrorWithType(error, types.conflict);
       }
       if (error.isAxiosError) {
-        throw new Error('network');
+        throw createErrorWithType(error, types.network);
       }
       throw error;
     })

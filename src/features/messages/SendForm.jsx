@@ -61,7 +61,7 @@ const SendForm = () => {
             />
           </Form.Group>
           <Col sm="auto">
-            <Button className="btn btn-group-vertical" disabled={formik.values.text === '' || formik.isSubmitting} type="submit">
+            <Button className="btn btn-group-vertical" disabled={formik.values.text.trim() === '' || formik.isSubmitting} type="submit">
               {t('messages.submitButton')}
             </Button>
           </Col>

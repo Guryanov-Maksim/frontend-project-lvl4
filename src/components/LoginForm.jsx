@@ -62,7 +62,6 @@ const LoginForm = () => {
           autoComplete="username"
           required
           ref={inputRef}
-          // isValid={!formik.errors.username}
           isInvalid={authFailed}
         />
       </Form.Group>
@@ -77,7 +76,6 @@ const LoginForm = () => {
           id="password"
           autoComplete="current-password"
           required
-          // isValid={!formik.errors.username}
           isInvalid={authFailed}
         />
         {authFailed && (

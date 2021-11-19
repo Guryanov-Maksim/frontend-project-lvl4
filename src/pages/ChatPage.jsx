@@ -7,14 +7,15 @@ import { messagesFetched } from '../features/messages/MessagesSlice.jsx';
 import MessagesBox from '../features/messages/MessagesBox.jsx';
 import ChannelsBox from '../features/channels/ChannelsBox.jsx';
 import Modal from '../features/modals/Modal.jsx';
-import { useApi } from '../hooks/index.js';
+import { useApi, useAuth } from '../hooks/index.js';
 
 const ChatPage = () => {
   const dispatch = useDispatch();
   const api = useApi();
+  const { user } = useAuth();
 
   useEffect(() => {
-    api.fetchContent()
+    api.fetchContent(user)
       .then(({ data: { channels, currentChannelId, messages } }) => {
         dispatch(channelsFetched({ channels, currentChannelId }));
         dispatch(messagesFetched(messages));

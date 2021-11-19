@@ -3,13 +3,9 @@ import axios from 'axios';
 import routes from '../routes.js';
 import createErrorWithType, { types } from '../error.js';
 
-const getAuthData = () => JSON.parse(localStorage.getItem('userId'));
-
-const saveAuthData = (data) => localStorage.setItem('userId', JSON.stringify(data));
-
 const logIn = (values) => (
   axios.post(routes.loginPath(), values)
-    .then(({ data }) => saveAuthData(data))
+    .then(({ data }) => data)
     .catch((error) => {
       if (error.response?.status === 401) {
         throw createErrorWithType(error, types.unauthorized);
@@ -21,22 +17,19 @@ const logIn = (values) => (
     })
 );
 
-const logOut = () => localStorage.removeItem('userId');
-
-const getAuthHeader = () => {
-  const userId = getAuthData();
-  if (userId && userId.token) {
-    return { Authorization: `Bearer ${userId.token}` };
+const getAuthHeader = (user) => {
+  if (user && user.token) {
+    return { Authorization: `Bearer ${user.token}` };
   }
 
   return {};
 };
 
-const fetchContent = () => axios.get(routes.contentPath(), { headers: getAuthHeader() });
+const fetchContent = (user) => axios.get(routes.contentPath(), { headers: getAuthHeader(user) });
 
 const signUp = (values) => (
   axios.post(routes.signupPath(), values)
-    .then(({ data }) => saveAuthData(data))
+    .then(({ data }) => data)
     .catch((error) => {
       if (error.response?.status === 409) {
         throw createErrorWithType(error, types.conflict);
@@ -50,10 +43,8 @@ const signUp = (values) => (
 
 export default () => (
   {
-    getAuthData,
     fetchContent,
     logIn,
-    logOut,
     signUp,
   }
 );

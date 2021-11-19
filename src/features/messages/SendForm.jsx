@@ -17,7 +17,7 @@ const SendForm = () => {
   const currentChannelId = useSelector(selectCurrentChannelId);
   const { t } = useTranslation();
   const inputRef = useRef();
-  const { username } = useAuth();
+  const { user: { username } } = useAuth();
 
   useEffect(() => {
     inputRef.current.focus();

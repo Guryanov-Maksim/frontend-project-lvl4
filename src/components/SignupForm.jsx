@@ -60,8 +60,8 @@ const SignupForm = () => {
     onSubmit: async (values) => {
       setRegistrationFailed(false);
       try {
-        await api.signUp(values);
-        auth.logIn();
+        const data = await api.signUp(values);
+        auth.logIn(data);
         history.replace(routes.privateRoute());
       } catch (error) {
         switch (error.type) {

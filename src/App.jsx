@@ -11,28 +11,32 @@ import ChatPage from './pages/ChatPage.jsx';
 import SignUpPage from './pages/SignupPage.jsx';
 import Page404 from './pages/Page404.jsx';
 import { authContext } from './contexts/index.js';
-import { useAuth, useApi } from './hooks/index.js';
+import { useAuth } from './hooks/index.js';
 import routes from './routes.js';
 import Navigation from './components/Navigation.jsx';
 
-const isAuthUser = (userId) => userId && userId.token;
+const isLoggedIn = (user) => user !== null;
 
 const AuthProvider = ({ children }) => {
-  const api = useApi();
-  const userId = api.getAuthData() || { username: null };
-  const [loggedIn, setLoggedIn] = useState(isAuthUser(userId));
-  const { username } = userId;
+  const [user, setUser] = useState(() => JSON.parse(localStorage.getItem('user')) || null);
+  const [loggedIn, setLoggedIn] = useState(isLoggedIn(user));
 
-  const logIn = () => setLoggedIn(true);
+  const logIn = (data) => {
+    localStorage.setItem('user', JSON.stringify(data));
+    setUser(data);
+    setLoggedIn(true);
+  };
+
   const logOut = () => {
-    api.logOut();
+    localStorage.removeItem('user');
     setLoggedIn(false);
+    setUser(null);
   };
 
   return (
     <authContext.Provider
       value={{
-        username,
+        user,
         loggedIn,
         logIn,
         logOut,

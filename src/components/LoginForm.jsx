@@ -28,8 +28,8 @@ const LoginForm = () => {
     onSubmit: async (values) => {
       setAuthFailed(false);
       try {
-        await api.logIn(values);
-        auth.logIn();
+        const data = await api.logIn(values);
+        auth.logIn(data);
         const { from } = location.state;
         history.replace(from);
       } catch (error) {

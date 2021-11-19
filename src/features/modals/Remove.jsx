@@ -42,13 +42,13 @@ const Remove = (props) => {
           }}
           onSubmit={onSubmit}
         >
-          {() => (
+          {({ isSubmitting }) => (
             <Form>
               <div className="d-flex justify-content-end">
-                <Button className="mr-2" variant="secondary" onClick={onHide}>
+                <Button disabled={isSubmitting} className="mr-2" variant="secondary" onClick={onHide}>
                   {t('removeModal.cancelButton')}
                 </Button>
-                <Button variant="danger" type="submit">
+                <Button disabled={isSubmitting} variant="danger" type="submit">
                   {t('removeModal.submitButton')}
                 </Button>
               </div>

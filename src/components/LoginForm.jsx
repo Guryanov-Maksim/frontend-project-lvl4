@@ -3,9 +3,10 @@ import { useFormik } from 'formik';
 import { useLocation, useHistory } from 'react-router-dom';
 import { Form, Button, Spinner } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
+import axios from 'axios';
 
-import { useAuth, useApi } from '../hooks/index.js';
-import { types } from '../error.js';
+import { useAuth } from '../hooks/index.js';
+import routes from '../routes.js';
 
 const LoginForm = () => {
   const [authFailed, setAuthFailed] = useState(false);
@@ -14,7 +15,6 @@ const LoginForm = () => {
   const location = useLocation();
   const history = useHistory();
   const { t } = useTranslation();
-  const api = useApi();
 
   useEffect(() => {
     inputRef.current.focus();
@@ -28,23 +28,21 @@ const LoginForm = () => {
     onSubmit: async (values) => {
       setAuthFailed(false);
       try {
-        const data = await api.logIn(values);
+        const { data } = await axios.post(routes.loginPath(), values);
         auth.logIn(data);
         const { from } = location.state;
         history.replace(from);
       } catch (error) {
-        switch (error.type) {
-          case types.unauthorized: {
-            setAuthFailed(true);
-            inputRef.current.select();
-            break;
-          }
-          case types.network:
-            inputRef.current.select();
-            break;
-          default:
-            console.error(error);
+        if (error.response?.status === 401) {
+          setAuthFailed(true);
+          inputRef.current.select();
+          return;
         }
+        if (error.isAxiosError) {
+          inputRef.current.select();
+          return;
+        }
+        console.error(error);
       }
     },
   });

@@ -9,10 +9,10 @@ import {
   Spinner,
 } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
+import axios from 'axios';
 
-import { useAuth, useApi } from '../hooks/index.js';
+import { useAuth } from '../hooks/index.js';
 import routes from '../routes.js';
-import { types } from '../error.js';
 
 const toString = (err) => (
   typeof err === 'string'
@@ -26,7 +26,6 @@ const SignupForm = () => {
   const auth = useAuth();
   const history = useHistory();
   const { t } = useTranslation();
-  const api = useApi();
 
   const schema = yup.object().shape({
     username: yup
@@ -60,23 +59,20 @@ const SignupForm = () => {
     onSubmit: async (values) => {
       setRegistrationFailed(false);
       try {
-        const data = await api.signUp(values);
+        const { data } = await axios.post(routes.signupPath(), values);
         auth.logIn(data);
         history.replace(routes.privateRoute());
       } catch (error) {
-        switch (error.type) {
-          case types.conflict: {
-            setRegistrationFailed(true);
-            inputRef.current.select();
-            break;
-          }
-          case types.network: {
-            inputRef.current.focus();
-            break;
-          }
-          default:
-            console.error(error);
+        if (error.response?.status === 409) {
+          setRegistrationFailed(true);
+          inputRef.current.select();
+          return;
         }
+        if (error.isAxiosError) {
+          inputRef.current.focus();
+          return;
+        }
+        console.error(error);
       }
     },
   });

@@ -14,4 +14,4 @@ You can start using the Chat right now by following this [link](https://damp-bay
 ## Developing
         make start
 
-If you want to improve this chat you will need this command to build the project and run it on a local server (http://0.0.0.0:5000). In the result any saved changes in the source code will cause rebuilding project.
+If you want to improve this chat you will need this command to build the project and run it on a local server (http://0.0.0.0:5000). In the result any saved changes in the source code will cause rebuilding project. And it is very useful, isn't it?
